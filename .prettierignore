@@ -1,0 +1,8 @@
+# Add files here to ignore them from prettier formatting
+/dist
+/node_modules
+/.vscode
+/.idea
+package-lock.json
+package.json
+yarn.lock
