@@ -1,0 +1,4 @@
+{
+  // Рекомендованные расширения
+  "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+}
