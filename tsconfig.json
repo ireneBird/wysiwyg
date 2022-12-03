@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "module": "commonjs",
+    "target": "es6",
     "allowJs": false,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
-    "noImplicitOverride": true
-    // "forceConsistentCasingInFileNames": true,
-    // "noEmit": true,
-    // "incremental": true,
-    // "esModuleInterop": true,
-    // "isolatedModules": true,
-    // "sourceMap": true
+    "noImplicitOverride": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["dist", "node_modules", "**/*.spec.ts"]
 }
