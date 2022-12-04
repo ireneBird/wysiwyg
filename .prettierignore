@@ -6,3 +6,8 @@
 package-lock.json
 package.json
 yarn.lock
+README.md
+tsconfig.json 
+.prettierrc 
+.eslintrc
+webpack.config.ts
