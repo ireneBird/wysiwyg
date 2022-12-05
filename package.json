@@ -8,7 +8,7 @@
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "eslint-fix": "npm run eslint --fix",
     "prettier": "prettier",
-    "format": "npm run eslint --fix & npx prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
+    "format": "npm run eslint --fix & npx prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack",
     "dev": "webpack-dev-server --mode=development",
     "prepare": "husky install"
