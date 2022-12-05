@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/alexsaranin/wysiwyg#readme",
   "devDependencies": {
+    "@types/eventemitter2": "4.1.0",
     "@types/node": "^18.11.10",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
@@ -57,5 +58,8 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "eventemitter2": "^6.4.9"
   }
 }
