@@ -30,7 +30,7 @@ module.exports = {
           },
           'css-loader',
           'postcss-loader',
-          'sass-loader',
+          // 'sass-loader',
         ],
       },
       {
@@ -41,14 +41,20 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+        exclude: /node_modules/,
+        use: ['file-loader?name=[name].[ext]'],
+      },
     ],
   },
 
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: path.join(__dirname, 'public', 'index.html'),
       filename: 'index.html',
+      favicon: './public/favicon.ico',
       minify: {
         collapseWhitespace: true,
         removeComments: true,
@@ -82,8 +88,8 @@ module.exports = {
     port: 9000,
   },
 
-  watch: true,
-  watchOptions: {
-    ignored: ['/node_modules/'],
-  },
+  // watch: true,
+  // watchOptions: {
+  //   ignored: ['/node_modules/'],
+  // },
 };

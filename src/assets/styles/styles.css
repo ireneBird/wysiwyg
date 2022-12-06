@@ -1,0 +1,34 @@
+@import url("./normalize.css");
+
+body {
+  background: var(--background);
+}
+
+.editor {
+  background: #fff;
+  min-width: 500px;
+  width: fit-content;
+  margin: auto;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+}
+
+.playgroundWrap {
+  width: 100%;
+  height: 500px;
+}
+
+.playground {
+  height: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+:root {
+  --background: #c6e7dd;
+  --white: #f5f4f4;
+}
