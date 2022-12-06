@@ -7,30 +7,75 @@
     <title>WYSIWYG</title>
   </head>
   <body>
-    <h1>Wysiwig - editor</h1>
+    <h1 class="title">Wysiwig - editor</h1>
     <div class="editor">
       <div class="panel">
         <div class="toolbar">
-          <select name="heading" id="0">
+          <select name="heading" id="0" class="selection">
             <option value="0">Heading 1</option>
             <option value="1">Heading 2</option>
             <option value="2">Paragraph</option>
           </select>
-          <select name="Font" id="0">
+          <select name="Font" id="0" class="selection">
             <option value="0">Arial</option>
             <option value="1">Verdana</option>
             <option value="2">Times New Roman</option>
           </select>
-          <button class="button">B</button>
-          <button class="button">I</button>
-          <button class="button">C</button>
-          <button class="button">U</button>
-          <button>Center</button>
-          <button>left</button>
-          <button>right</button>
-          <button>Undo</button>
-          <button>Redo</button>
-          <button>Clear</button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_bold-01"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_italic-01"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_underline-01"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_strikethrough-01"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_align-center"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_align-justify"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_align-left"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_align-right"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_corner-up-left"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_corner-up-right"></use>
+            </svg>
+          </button>
+          <button class="button">
+            <svg class="icon">
+              <use xlink:href="#_sprite_x-close"></use>
+            </svg>
+          </button>
         </div>
       </div>
       <div class="playgroundWrap">

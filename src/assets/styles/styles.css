@@ -1,16 +1,33 @@
 @import url("./normalize.css");
 
 body {
-  background: var(--background);
+  background: var(--body);
+  font-family: var(--font-family);
+  padding-top: 40px;
+  color: var(--text-color);
+}
+
+.title {
+  text-align: center;
+  color: #389ca6;
+  margin-bottom: 30px;
 }
 
 .editor {
-  background: #fff;
+  background: var(--background);
   min-width: 500px;
   width: fit-content;
   margin: auto;
   display: grid;
   grid-template-rows: 1fr auto auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.panel {
+  padding: 10px 15px;
+  background: var(--tools-section);
+  border-bottom: 1px solid #eee;
 }
 
 .playgroundWrap {
@@ -20,15 +37,48 @@ body {
 
 .playground {
   height: 100%;
-  padding: 10px;
+  padding: 10px 15px;
   outline: none;
+}
+.button {
+  border: none;
+  border-radius: 3px;
+  background: none;
+}
+
+.button:hover,
+.button.active {
+  background: var(--button-hover);
+  color: var(--button-hover-text);
 }
 
 button {
   cursor: pointer;
 }
 
+.icon {
+  height: 25px;
+  width: 15px;
+
+  vertical-align: middle;
+}
+.selection {
+  border: none;
+  padding: 3px 5px;
+  font-size: 13px;
+}
+.footer {
+  padding: 10px 15px;
+  text-align: right;
+  border-top: 1px solid #eee;
+  background: var(--tools-section);
+}
 :root {
-  --background: #c6e7dd;
-  --white: #f5f4f4;
+  --body: #c6e7dd;
+  --text-color: #171717;
+  --background: #fafafa;
+  --button-hover: #6cbfde;
+  --button-hover-text: #fff;
+  --tools-section: #efefef;
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 module.exports = {
   entry: './src/main.ts',
@@ -34,18 +35,23 @@ module.exports = {
         ],
       },
       {
-        test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        options: {},
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|otf)([\?]?.*)$/,
         use: [
           {
             loader: 'file-loader?name=assets/fonts/[name].[ext]',
           },
         ],
       },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
-        exclude: /node_modules/,
-        use: ['file-loader?name=[name].[ext]'],
-      },
+      // {
+      //   test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+      //   exclude: /node_modules/,
+      //   use: ['file-loader?name=[name].[ext]'],
+      // },
     ],
   },
 
@@ -63,8 +69,9 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'style-[hash].css',
+      filename: 'style.css',
     }),
+    new SpriteLoaderPlugin(),
     // new CopyWebpackPlugin({
     //   patterns: [
     //     {
