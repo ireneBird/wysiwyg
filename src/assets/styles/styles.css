@@ -1,36 +1,36 @@
 @import url("./normalize.css");
 
 body {
-  background: var(--body);
-  font-family: var(--font-family);
   padding-top: 40px;
+  background: var(--body);
   color: var(--text-color);
+  font-family: var(--font-family);
 }
 
 .title {
-  text-align: center;
-  color: #389ca6;
   margin-bottom: 30px;
+  color: #389ca6;
+  text-align: center;
 }
 
 .editor {
-  background: var(--background);
-  min-width: 500px;
-  width: fit-content;
-  margin: auto;
   display: grid;
   grid-template-rows: 1fr auto auto;
-  border-radius: 10px;
   overflow: hidden;
+  width: fit-content;
+  min-width: 500px;
+  margin: auto;
+  border-radius: 10px;
+  background: var(--background);
 }
 
 .panel {
   padding: 10px 15px;
-  background: var(--tools-section);
   border-bottom: 1px solid #eee;
+  background: var(--tools-section);
 }
 
-.playgroundWrap {
+.playgroun-wrap {
   width: 100%;
   height: 500px;
 }
@@ -40,6 +40,7 @@ body {
   padding: 10px 15px;
   outline: none;
 }
+
 .button {
   border: none;
   border-radius: 3px;
@@ -57,22 +58,24 @@ button {
 }
 
 .icon {
-  height: 25px;
-  width: 15px;
-
   vertical-align: middle;
+  width: 15px;
+  height: 25px;
 }
+
 .selection {
-  border: none;
   padding: 3px 5px;
+  border: none;
   font-size: 13px;
 }
+
 .footer {
   padding: 10px 15px;
-  text-align: right;
   border-top: 1px solid #eee;
   background: var(--tools-section);
+  text-align: right;
 }
+
 :root {
   --body: #c6e7dd;
   --text-color: #171717;
@@ -80,5 +83,5 @@ button {
   --button-hover: #6cbfde;
   --button-hover-text: #fff;
   --tools-section: #efefef;
-  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-family: "Segoe UI", tahoma, geneva, verdana, sans-serif;
 }
