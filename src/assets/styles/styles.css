@@ -1,0 +1,87 @@
+@import url("./normalize.css");
+
+body {
+  padding-top: 40px;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background: var(--body);
+}
+
+.title {
+  margin-bottom: 30px;
+  text-align: center;
+  color: #389ca6;
+}
+
+.editor {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  width: fit-content;
+  min-width: 500px;
+  margin: auto;
+  overflow: hidden;
+  background: var(--background);
+  border-radius: 10px;
+}
+
+.panel {
+  padding: 10px 15px;
+  background: var(--tools-section);
+  border-bottom: 1px solid #eee;
+}
+
+.playgroun-wrap {
+  width: 100%;
+  height: 500px;
+}
+
+.playground {
+  height: 100%;
+  padding: 10px 15px;
+  outline: none;
+}
+
+.button {
+  background: none;
+  border: none;
+  border-radius: 3px;
+}
+
+.button:hover,
+.button.active {
+  color: var(--button-hover-text);
+  background: var(--button-hover);
+}
+
+button {
+  cursor: pointer;
+}
+
+.icon {
+  width: 15px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.selection {
+  padding: 3px 5px;
+  font-size: 13px;
+  border: none;
+}
+
+.footer {
+  padding: 10px 15px;
+  text-align: right;
+  background: var(--tools-section);
+  border-top: 1px solid #eee;
+}
+
+:root {
+  --body: #c6e7dd;
+  --text-color: #171717;
+  --background: #fafafa;
+  --button-hover: #6cbfde;
+  --button-hover-text: #fff;
+  --tools-section: #efefef;
+  --font-family: "Segoe UI", tahoma, geneva, verdana, sans-serif;
+}

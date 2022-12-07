@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 module.exports = {
   entry: './src/main.ts',
@@ -30,25 +31,36 @@ module.exports = {
           },
           'css-loader',
           'postcss-loader',
-          'sass-loader',
+          // 'sass-loader',
         ],
       },
       {
-        test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        options: {},
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|otf)([\?]?.*)$/,
         use: [
           {
             loader: 'file-loader?name=assets/fonts/[name].[ext]',
           },
         ],
       },
+      // {
+      //   test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+      //   exclude: /node_modules/,
+      //   use: ['file-loader?name=[name].[ext]'],
+      // },
     ],
   },
 
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: path.join(__dirname, 'public', 'index.html'),
       filename: 'index.html',
+      favicon: './public/favicon.ico',
       minify: {
         collapseWhitespace: true,
         removeComments: true,
@@ -57,8 +69,9 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'style-[hash].css',
+      filename: 'style.css',
     }),
+    new SpriteLoaderPlugin(),
     // new CopyWebpackPlugin({
     //   patterns: [
     //     {
@@ -82,8 +95,8 @@ module.exports = {
     port: 9000,
   },
 
-  watch: true,
-  watchOptions: {
-    ignored: ['/node_modules/'],
-  },
+  // watch: true,
+  // watchOptions: {
+  //   ignored: ['/node_modules/'],
+  // },
 };

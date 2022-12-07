@@ -10,4 +10,3 @@ README.md
 tsconfig.json 
 .prettierrc 
 .eslintrc
-webpack.config.ts
