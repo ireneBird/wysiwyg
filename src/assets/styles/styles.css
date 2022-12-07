@@ -2,32 +2,32 @@
 
 body {
   padding-top: 40px;
-  background: var(--body);
-  color: var(--text-color);
   font-family: var(--font-family);
+  color: var(--text-color);
+  background: var(--body);
 }
 
 .title {
   margin-bottom: 30px;
-  color: #389ca6;
   text-align: center;
+  color: #389ca6;
 }
 
 .editor {
   display: grid;
   grid-template-rows: 1fr auto auto;
-  overflow: hidden;
   width: fit-content;
   min-width: 500px;
   margin: auto;
-  border-radius: 10px;
+  overflow: hidden;
   background: var(--background);
+  border-radius: 10px;
 }
 
 .panel {
   padding: 10px 15px;
-  border-bottom: 1px solid #eee;
   background: var(--tools-section);
+  border-bottom: 1px solid #eee;
 }
 
 .playgroun-wrap {
@@ -42,15 +42,15 @@ body {
 }
 
 .button {
+  background: none;
   border: none;
   border-radius: 3px;
-  background: none;
 }
 
 .button:hover,
 .button.active {
-  background: var(--button-hover);
   color: var(--button-hover-text);
+  background: var(--button-hover);
 }
 
 button {
@@ -58,22 +58,22 @@ button {
 }
 
 .icon {
-  vertical-align: middle;
   width: 15px;
   height: 25px;
+  vertical-align: middle;
 }
 
 .selection {
   padding: 3px 5px;
-  border: none;
   font-size: 13px;
+  border: none;
 }
 
 .footer {
   padding: 10px 15px;
-  border-top: 1px solid #eee;
-  background: var(--tools-section);
   text-align: right;
+  background: var(--tools-section);
+  border-top: 1px solid #eee;
 }
 
 :root {
