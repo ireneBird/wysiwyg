@@ -1,0 +1,36 @@
+- let buttonIconNames = ["bold-01", "italic-01", "underline-01", "strikethrough-01", "align-center", "align-justify", "align-left", "align-right", "corner-up-left", "corner-up-right", "x-close"];
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(
+      name="viewport",
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    )
+    title Wysiwig - editor
+
+  body
+    h1.title Wysiwig - editor
+    .editor
+      .panel
+        .toolbar
+          select#heading.selection(name="heading")
+            option(value="0") Heading 1
+            option(value="1") Heading 2
+            option(value="2") Paragraph
+          select#font.selection(name="font-family")
+            option(value="0") Arial
+            option(value="1") Verdana
+            option(value="2") Times New Roman
+
+          each name in buttonIconNames
+            button.button
+              svg.icon
+                use(xlink:href="#_sprite_" + name)
+
+      .playground-wrap
+        .playground(contenteditable="true")
+
+      .footer
+        span words: 0

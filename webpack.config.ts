@@ -47,6 +47,14 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.pug$/,
+        use: [
+          {
+            loader: 'pug-loader',
+          },
+        ],
+      },
       // {
       //   test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
       //   exclude: /node_modules/,
@@ -58,15 +66,16 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
-      filename: 'index.html',
-      favicon: './public/favicon.ico',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-      },
+      template: './src/views/index.pug',
+      // template: path.join(__dirname, 'public', 'index.html'),
+      // filename: 'index.html',
+      favicon: './src/assets/icons/favicon.ico',
+      // minify: {
+      //   collapseWhitespace: true,
+      //   removeComments: true,
+      //   removeRedundantAttributes: true,
+      //   useShortDoctype: true,
+      // },
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
