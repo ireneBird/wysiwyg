@@ -67,15 +67,13 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/views/index.pug',
-      // template: path.join(__dirname, 'public', 'index.html'),
-      // filename: 'index.html',
       favicon: './src/assets/icons/favicon.ico',
-      // minify: {
-      //   collapseWhitespace: true,
-      //   removeComments: true,
-      //   removeRedundantAttributes: true,
-      //   useShortDoctype: true,
-      // },
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+      },
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
