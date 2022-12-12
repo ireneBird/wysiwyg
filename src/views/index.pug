@@ -25,7 +25,7 @@ html(lang="en")
             option(value="2") Times New Roman
 
           each name in buttonIconNames
-            button.button
+            button.button(id=name)
               svg.icon
                 use(xlink:href="#_sprite_" + name)
 
