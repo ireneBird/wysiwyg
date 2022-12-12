@@ -1,4 +1,4 @@
-import emitter from '../event-emiter';
+import emitter from '../event-emitter';
 import {
   ButtonsGroup,
   Control,
