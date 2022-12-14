@@ -5,3 +5,4 @@ src/assets/**
 docs/**
 node_modules/**
 webpack.config.ts
+jest.**
