@@ -15,12 +15,10 @@ function getRule(node, config) {
 function isEmpty(node): boolean {
   let result = true;
   const re = /^\s*$/;
-  let i;
-  let child;
 
   if (node.hasChildNodes()) {
-    for (i = 0; i < node.childNodes.length && result; i++) {
-      child = node.childNodes[i];
+    for (let i = 0; i < node.childNodes.length && result; i++) {
+      const child = node.childNodes[i];
 
       if (child.nodeType === 1) {
         result = isEmpty(child);
@@ -34,11 +32,9 @@ function isEmpty(node): boolean {
 }
 
 function checkStyles(node, config) {
-  let re;
-
   if (typeof config === 'string' && node.style.length) {
     for (let i = node.style.length - 1; i >= 0; i--) {
-      re = new RegExp(`(?:^|,)${node.style[i]}(?:,|$)`);
+      const re = new RegExp(`(?:^|,)${node.style[i]}(?:,|$)`);
 
       if (!re.test(config)) {
         // eslint-disable-next-line no-param-reassign
@@ -53,11 +49,9 @@ function checkStyles(node, config) {
 }
 
 function checkClasses(node, config) {
-  let re;
-
   if (typeof config === 'string' && node.classList.length) {
     for (let i = node.classList.length - 1; i >= 0; i--) {
-      re = new RegExp(`(?:^|\\s)${node.classList[i]}(?:\\s|$)`);
+      const re = new RegExp(`(?:^|\\s)${node.classList[i]}(?:\\s|$)`);
 
       if (!re.test(config)) {
         node.classList.remove(node.classList[i]);
@@ -69,6 +63,7 @@ function checkClasses(node, config) {
     }
   }
 }
+
 function unpack(node) {
   const parent = node.parentNode;
 
@@ -77,9 +72,9 @@ function unpack(node) {
   }
 }
 
-function convert(node, convert_to) {
+function convert(node, convertTo) {
   const parent = node.parentNode;
-  const converted = document.createElement(convert_to);
+  const converted = document.createElement(convertTo);
 
   if (node.style.cssText) {
     converted.style.cssText = node.style.cssText;
@@ -96,22 +91,23 @@ function convert(node, convert_to) {
 }
 
 function doTasks(taskSet) {
-  for (let i = 0; i < taskSet.length; i++) {
-    switch (taskSet[i].task) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const task of taskSet) {
+    switch (task.task) {
       case 'remove':
-        taskSet[i].node.parentNode.removeChild(taskSet[i].node);
+        task.node.parentNode.removeChild(task.node);
         break;
 
       case 'convert':
-        convert(taskSet[i].node, taskSet[i].convert_to);
+        convert(task.node, task.convertTo);
         break;
 
       case 'process':
-        taskSet[i].process(taskSet[i].node);
+        task.process(task.node);
         break;
 
       case 'unpack':
-        unpack(taskSet[i].node);
+        unpack(task.node);
         break;
       default:
         return;
@@ -138,27 +134,27 @@ function processNode(node, config, taskSet) {
         process(node, rule.config);
       }
 
-      if (rule.no_empty && isEmpty(node)) {
-        taskSet.push({
+      if (rule.noEmpty && isEmpty(node)) {
+        taskSet.add({
           task: 'remove',
           node,
         });
       } else {
-        checkStyles(node, rule.valid_styles);
-        checkClasses(node, rule.valid_classes);
+        checkStyles(node, rule.validStyles);
+        checkClasses(node, rule.validClasses);
 
-        if (rule.convert_to) {
-          taskSet.push({
+        if (rule.convertTo) {
+          taskSet.add({
             task: 'convert',
             node,
-            convert_to: rule.convert_to,
+            convertTo: rule.convertTo,
           });
         } else if (node.id) {
           node.removeAttribute('id');
         }
 
         if (typeof rule.process === 'function') {
-          taskSet.push({
+          taskSet.add({
             task: 'process',
             node,
             process: rule.process,
@@ -169,27 +165,27 @@ function processNode(node, config, taskSet) {
       process(node, config);
 
       if (node.hasChildNodes()) {
-        taskSet.push({
+        taskSet.add({
           task: 'unpack',
           node,
         });
       }
 
-      taskSet.push({
+      taskSet.add({
         task: 'remove',
         node,
       });
     }
   }
 
-  if (node.nodeType === 2) {
+  if (node.nodeType === 3) {
     // it's text
     processText(node);
   }
 }
 
-export default function process(node: HTMLElement, config) {
-  const taskSet = [];
+function process(node: HTMLElement, config) {
+  const taskSet = new Set();
 
   for (let i = 0; i < node.childNodes?.length; i++) {
     processNode(node.childNodes[i], config, taskSet);
@@ -197,3 +193,5 @@ export default function process(node: HTMLElement, config) {
 
   doTasks(taskSet);
 }
+
+export default process;
