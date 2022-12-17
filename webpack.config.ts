@@ -31,7 +31,7 @@ module.exports = {
           },
           'css-loader',
           'postcss-loader',
-          // 'sass-loader',
+          'sass-loader',
         ],
       },
       {
@@ -76,8 +76,11 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: '[name].css',
     }),
+    // new MiniCssExtractPlugin({
+    //   filename: 'style.css',
+    // }),
     new SpriteLoaderPlugin(),
     // new CopyWebpackPlugin({
     //   patterns: [
@@ -91,7 +94,7 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['*', '.tsx', '.ts', '.js'],
   },
 
   devServer: {

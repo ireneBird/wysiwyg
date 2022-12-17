@@ -1,4 +1,4 @@
-@import url("./normalize.css");
+@import 'normalize.scss', '_dropdown.scss';
 
 body {
   padding-top: 40px;
@@ -87,5 +87,5 @@ button {
   --button-hover: #6cbfde;
   --button-hover-text: #fff;
   --tools-section: #efefef;
-  --font-family: "Segoe UI", tahoma, geneva, verdana, sans-serif;
+  --font-family: 'Segoe UI', tahoma, geneva, verdana, sans-serif;
 }
