@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-
 import * as fs from 'fs';
 import * as path from 'path';
 import { JSDOM } from 'jsdom';
