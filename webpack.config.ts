@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -34,11 +33,6 @@ module.exports = {
           'postcss-loader',
           'sass-loader',
         ],
-      },
-      {
-        test: /\.svg$/,
-        loader: 'svg-sprite-loader',
-        options: {},
       },
       {
         test: /\.(woff|woff2|ttf|eot|otf)([\?]?.*)$/,
