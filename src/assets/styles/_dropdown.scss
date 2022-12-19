@@ -9,11 +9,16 @@
       display: none;
     }
   }
-  &__value {
+  &__btn {
+    border: none;
+    max-width: 97px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+
+  &__btn-style {
     border: none;
   }
-}
-
-.btn-style {
-  border: none;
 }
