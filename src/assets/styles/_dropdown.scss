@@ -1,0 +1,24 @@
+.dropdown {
+  &__menu {
+    list-style: none;
+    padding-left: 0;
+    position: absolute;
+    background: var(--tools-section);
+    padding: 10px;
+    &_hide {
+      display: none;
+    }
+  }
+  &__btn {
+    border: none;
+    max-width: 97px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+
+  &__btn-style {
+    border: none;
+  }
+}

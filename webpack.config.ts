@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/main.ts',
@@ -31,13 +31,8 @@ module.exports = {
           },
           'css-loader',
           'postcss-loader',
-          // 'sass-loader',
+          'sass-loader',
         ],
-      },
-      {
-        test: /\.svg$/,
-        loader: 'svg-sprite-loader',
-        options: {},
       },
       {
         test: /\.(woff|woff2|ttf|eot|otf)([\?]?.*)$/,
@@ -55,11 +50,11 @@ module.exports = {
           },
         ],
       },
-      // {
-      //   test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
-      //   exclude: /node_modules/,
-      //   use: ['file-loader?name=[name].[ext]'],
-      // },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+        exclude: /node_modules/,
+        use: ['file-loader?name=[name].[ext]'],
+      },
     ],
   },
 
@@ -68,30 +63,33 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/views/index.pug',
       favicon: './src/assets/icons/favicon.ico',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-      },
+      // minify: {
+      //   collapseWhitespace: true,
+      //   removeComments: true,
+      //   removeRedundantAttributes: true,
+      //   useShortDoctype: true,
+      // },
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: '[name].css',
     }),
-    new SpriteLoaderPlugin(),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {
-    //       from: '**/*',
-    //       context: path.resolve(__dirname, 'src', 'assets'),
-    //       to: './assets',
-    //     },
-    //   ],
+    // new MiniCssExtractPlugin({
+    //   filename: 'style.css',
     // }),
+    // new SpriteLoaderPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: '**/*',
+          context: path.resolve(__dirname, 'src', 'assets'),
+          to: './assets',
+        },
+      ],
+    }),
   ],
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['*', '.tsx', '.ts', '.js'],
   },
 
   devServer: {

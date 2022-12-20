@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexsaranin/wysiwyg.git"
+    "url": "git+https://github.com/ireneBird/wysiwyg"
   },
   "keywords": [
     "wysiwyg",
@@ -25,14 +25,14 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alexsaranin/wysiwyg/issues"
+    "url": "https://github.com/ireneBird/wysiwyg/issues"
   },
-  "homepage": "https://github.com/alexsaranin/wysiwyg#readme",
+  "homepage": "https://github.com/ireneBird/wysiwyg#readme",
   "devDependencies": {
     "@prettier/plugin-pug": "^2.3.0",
-    "@types/eventemitter2": "4.1.0",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.10",
+    "@types/pug": "^2.0.6",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
@@ -52,24 +52,26 @@
     "jsdom": "^20.0.3",
     "lint-staged": "^13.0.4",
     "mini-css-extract-plugin": "^2.7.1",
+    "node-sass": "^8.0.0",
     "postcss-loader": "^7.0.2",
     "prettier": "^2.8.0",
-    "pug": "^3.0.2",
+    "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
+    "sass": "^1.56.2",
     "sass-loader": "^13.2.0",
     "stylelint": "^14.16.0",
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-standard": "^29.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-order-htmlacademy": "^2.0.6",
-    "svg-sprite-loader": "^6.0.11",
+    "stylelint-scss": "^4.3.0",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.9.3",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
   "lint-staged": {
