@@ -14,7 +14,7 @@ html(lang="en")
     h1.title Wysiwig - editor
     .editor
       .panel
-        .toolbar
+        .toolbar#toolbar
           select#heading.selection(name="heading")
             option(value="0") Heading 1
             option(value="1") Heading 2
@@ -24,10 +24,10 @@ html(lang="en")
             option(value="1") Verdana
             option(value="2") Times New Roman
 
-          each name in buttonIconNames
-            button.button(id=name)
-              svg.icon
-                use(xlink:href="#_sprite_" + name)
+          // each name in buttonIconNames
+          //   button.button(id=name)
+          //     svg.icon
+          //       use(xlink:href="#_sprite_" + name)
 
       .playground-wrap
         .playground(contenteditable="true")

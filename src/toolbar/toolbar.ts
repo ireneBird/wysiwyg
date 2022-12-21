@@ -1,26 +1,37 @@
-import emitter from '../event-emitter';
+import Control from './control/control';
 import {
   ButtonsGroup,
-  Control,
+  Control as ControlInterface,
   Select,
   Toolbar as ToolbarInterface,
 } from './interface';
 
+export type ToolbarOptions = {
+  element: HTMLElement;
+  controls: string[];
+};
+
 class Toolbar implements ToolbarInterface {
-  #emitter = emitter;
+  readonly #element: HTMLElement;
 
-  #element;
+  controls: Array<ControlInterface | ButtonsGroup | Select> = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(options) {
-    // парсим строку или массив options
-    // вызываем addControl
+  constructor({ element, controls }: ToolbarOptions) {
+    this.#element = element;
+
+    controls.forEach((name: string): void => {
+      const control = new Control(name, {
+        toolbarEventName: `toolbar.style.${name}`,
+        editorEventName: `editor.style.${name}`,
+        toolbarElement: this.#element,
+      });
+
+      this.addControl(control);
+    });
   }
 
-  controls: Control[] | ButtonsGroup[] | Select[] = [];
-
-  addControl(): void {
-    console.log(this.controls);
+  addControl(control: ControlInterface): void {
+    this.controls.push(control);
   }
 }
 

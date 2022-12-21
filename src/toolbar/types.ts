@@ -1,5 +1,5 @@
 export type ControlOptions = {
-  element: HTMLButtonElement;
+  toolbarElement: HTMLElement;
   toolbarEventName: string;
   editorEventName: string;
 };
