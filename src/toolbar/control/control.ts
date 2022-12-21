@@ -7,7 +7,7 @@ import { renderElement } from '../../helpers';
 const ACTIVE_CLASS = `active`;
 
 const getControlTemplate = (id: string, iconName: string): string =>
-  `<button class="button" id="${id}"><svg class="icon"><use xlink:href="#_sprite_${iconName}"></use></svg></button>`;
+  `<button class="button" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
 
 class Control implements ControlInterface {
   #eventEmitter: EventEmitter2 = eventEmitter;
