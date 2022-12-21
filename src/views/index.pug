@@ -1,4 +1,7 @@
+include mixins/_dropdown
 - let buttonIconNames = ["bold-01", "italic-01", "underline-01", "strikethrough-01", "align-center", "align-justify", "align-left", "align-right", "corner-up-left", "corner-up-right", "x-close"];
+- let optionsHeading = { h1: "Heading 1", h2: "Heading 2", p: "Paragraph", blockquote: "Blockquote" };
+- let optionsFonts = { helvetica: "Helvetica", arial: "Arial", verdana: "Verdana", timesNewRoman: "Times New Roman", tahoma: "Tahoma", terminal: "Terminal", impact: "Impact" };
 
 doctype html
 html(lang="en")
@@ -15,22 +18,18 @@ html(lang="en")
     .editor
       .panel
         .toolbar#toolbar
-          select#heading.selection(name="heading")
-            option(value="0") Heading 1
-            option(value="1") Heading 2
-            option(value="2") Paragraph
-          select#font.selection(name="font-family")
-            option(value="0") Arial
-            option(value="1") Verdana
-            option(value="2") Times New Roman
-
+          +dropdown(optionsHeading, optionsHeading.h1, 'headingDD', 'tag')
+          +dropdown(optionsFonts, optionsFonts.arial, 'fontsDD', 'font')
           // each name in buttonIconNames
-          //   button.button(id=name)
+          //   button.button
           //     svg.icon
-          //       use(xlink:href="#_sprite_" + name)
+          //       use(href="assets/icons/sprite.svg#" + name)
 
       .playground-wrap
-        .playground(contenteditable="true")
+        #editor.playground(contenteditable="true")
 
       .footer
         span words: 0
+
+    script
+      include dropdown.ts

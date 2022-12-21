@@ -1,4 +1,4 @@
-@import url("./normalize.css");
+@import 'normalize.scss', '_dropdown.scss';
 
 body {
   padding-top: 40px;
@@ -16,8 +16,8 @@ body {
 .editor {
   display: grid;
   grid-template-rows: 1fr auto auto;
-  width: fit-content;
-  max-width: 700px;
+  width: 100%;
+  max-width: 600px;
   margin: auto;
   overflow: hidden;
   background: var(--background);
@@ -28,6 +28,12 @@ body {
   padding: 10px 15px;
   background: var(--tools-section);
   border-bottom: 1px solid #eee;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .toolbar > *:not(:last-child) {
@@ -87,5 +93,5 @@ button {
   --button-hover: #6cbfde;
   --button-hover-text: #fff;
   --tools-section: #efefef;
-  --font-family: "Segoe UI", tahoma, geneva, verdana, sans-serif;
+  --font-family: 'Segoe UI', tahoma, geneva, verdana, sans-serif;
 }

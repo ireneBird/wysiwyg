@@ -1,0 +1,16 @@
+mixin dropdown(options, curVal, idDropdown, option)
+  .dropdown
+    button.dropdown__btn(type="button", onclick=`toggleMenu(${idDropdown})`)= curVal
+    ul.dropdown__menu.dropdown__menu_hide(id=`${idDropdown}`)
+      each val, key in options
+        li.menu__item
+          if option === 'tag'
+            button.dropdown__btn-style(value=val, onclick="selectOption(this)")
+              #{key}= val
+
+          else
+            button.dropdown__btn-style(
+              style=`font-family: ${key}`,
+              value=val,
+              onclick="selectOption(this)"
+            )= val
