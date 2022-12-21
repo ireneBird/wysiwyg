@@ -17,13 +17,13 @@ html(lang="en")
     h1.title Wysiwig - editor
     .editor
       .panel
-        .toolbar
+        .toolbar#toolbar
           +dropdown(optionsHeading, optionsHeading.h1, 'headingDD', 'tag')
           +dropdown(optionsFonts, optionsFonts.arial, 'fontsDD', 'font')
-          each name in buttonIconNames
-            button.button
-              svg.icon
-                use(href="assets/icons/sprite.svg#" + name)
+          // each name in buttonIconNames
+          //   button.button
+          //     svg.icon
+          //       use(href="assets/icons/sprite.svg#" + name)
 
       .playground-wrap
         #editor.playground(contenteditable="true")
