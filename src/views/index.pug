@@ -17,7 +17,7 @@ html(lang="en")
     h1.title Wysiwig - editor
     .editor
       .panel
-        .toolbar#toolbar
+        #toolbar.toolbar
           +dropdown(optionsHeading, optionsHeading.h1, 'headingDD', 'tag')
           +dropdown(optionsFonts, optionsFonts.arial, 'fontsDD', 'font')
           // each name in buttonIconNames

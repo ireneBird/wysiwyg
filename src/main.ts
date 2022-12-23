@@ -1,6 +1,7 @@
 import './assets/styles/main.scss';
 
 import Toolbar from './toolbar/toolbar';
+import Editor from './editor';
 
 // eslint-disable-next-line no-new
 new Toolbar({
@@ -19,3 +20,6 @@ new Toolbar({
     'x-close',
   ],
 });
+
+// eslint-disable-next-line no-new
+new Editor({ element: document.querySelector(`#editor`)! });

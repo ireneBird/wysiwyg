@@ -6,8 +6,21 @@ import { renderElement } from '../../helpers';
 
 const ACTIVE_CLASS = `active`;
 
-const getControlTemplate = (id: string, iconName: string): string =>
-  `<button class="button" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+const getControlTemplate = (id: string, iconName: string): string => {
+  let str = '';
+  switch (iconName) {
+    case 'bold-01':
+      str = `<button class="button toolbar-btn" data-el="b" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+      break;
+    case 'italic-01':
+      str = `<button class="button toolbar-btn" data-el="i" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+      break;
+    default:
+      str = `<button class="button toolbar-btn" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+  }
+
+  return str;
+};
 
 class Control implements ControlInterface {
   #eventEmitter: EventEmitter2 = eventEmitter;
@@ -56,7 +69,7 @@ class Control implements ControlInterface {
   }
 
   fire(): void {
-    this.#eventEmitter.emit(this.#eventName);
+    // this.#eventEmitter.emit(this.#eventName);
     this.isActive = !this.isActive;
     this.#changeElementActiveClass();
   }
