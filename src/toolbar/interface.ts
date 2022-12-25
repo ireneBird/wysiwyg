@@ -22,7 +22,7 @@ export interface Select extends Group {
 }
 
 export interface ButtonsGroup extends Group {
-  controls: Control[];
+  controls: Map<string, Control>;
 }
 
 export interface Toolbar {
