@@ -13,6 +13,7 @@ export interface SelectOption {
 export interface Group {
   name: string;
   activeOption: SelectOption | undefined;
+  renderOptions(parent: HTMLElement);
 }
 
 export interface Select extends Group {
@@ -21,7 +22,7 @@ export interface Select extends Group {
 }
 
 export interface ButtonsGroup extends Group {
-  buttons: Control[];
+  controls: Control[];
 }
 
 export interface Toolbar {
