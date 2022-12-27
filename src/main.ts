@@ -13,7 +13,7 @@ new Toolbar({
     'bold',
     'italic',
     'underline',
-    'strikethrough',
+    'strikeThrough',
     'align',
     'corner-up-left',
     'corner-up-right',
