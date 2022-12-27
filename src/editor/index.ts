@@ -1,49 +1,97 @@
 /* eslint-disable class-methods-use-this */
-import EventEmitter2 from 'eventemitter2';
 import emitter from '../event-emitter';
+
+const inlineTags = {
+  b: 'bold',
+  i: 'italic',
+  u: 'underline',
+  strike: 'strikeThrough',
+};
+const inlineStyles = new Map(Object.entries(inlineTags));
 
 export default class Editor {
   #field: HTMLDivElement;
 
-  #eventEmitter: EventEmitter2 = emitter;
+  selection: Selection | null;
+
+  #eventEmitter = emitter;
 
   constructor({ element }) {
     this.#field = element;
-    this.#eventEmitter.on('edit.keypress', this.addParagraphTag);
+    this.selection = document.getSelection();
+    this.changeStyle = this.changeStyle.bind(this);
+    this.onClick = this.onClick.bind(this);
 
+    this.#eventEmitter.on('edit.keypress', this.addParagraphTag);
     // add paragraph tag on new line
     this.#field.addEventListener('keypress', event => {
       this.#eventEmitter.emit('edit.keypress', event);
     });
 
-    // add active tag event
-    document.addEventListener('selectionchange', this.selectionChange);
-  }
+    this.#field.addEventListener('click', this.onClick);
 
-  addParagraphTag(e: KeyboardEvent) {
-    const activeButtons = getActiveButtons();
-    activeButtons.forEach(tag => {
-      // const str = `<${tag}><${tag}>`;
-      // document.execCommand('insertHtml', false, str);
+    this.#field.addEventListener('selectstart', () => {
+      document.addEventListener('selectionchange', this.logSelection);
     });
 
-    if (e.key === 'Enter') {
-      // don't add a p tag on list item
-      if (window.getSelection()?.anchorNode?.parentNode?.nodeName === 'LI')
-        return;
-      document.execCommand('formatBlock', false, 'p');
+    this.#field.addEventListener('mouseleave', () => {
+      document.removeEventListener('selectionchange', this.logSelection);
+    });
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const style of inlineStyles.values()) {
+      this.#eventEmitter.on(`toolbar.style.${style}`, this.changeStyle);
     }
   }
 
-  selectionChange() {
-    // TODO: очистить все кнопки от активного статуса
+  onClick(e) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const style of inlineStyles.values())
+      this.#eventEmitter.emit(`editor.style.${style}`, false);
 
-    const { anchorNode } = window.getSelection()!;
+    this.parentTagActive(e.path[0]);
+  }
 
-    if (anchorNode && childOfEditor(anchorNode.parentNode!)) {
-      // проверка на выжделение в редакторе
-      parentTagActive(anchorNode.parentElement);
+  logSelection() {
+    // TODO: очистить все кнопки от активного статуса?
+    this.selection = document.getSelection();
+  }
+
+  changeStyle(e) {
+    const activeTag = e.target.parentNode.getAttribute('id');
+
+    if (
+      this.selection &&
+      this.selection.anchorOffset !== this.selection.focusOffset &&
+      activeTag
+    ) {
+      document.execCommand(activeTag);
     }
+  }
+
+  addParagraphTag() {
+    if (window.getSelection()?.anchorNode?.parentNode?.nodeName === 'LI')
+      return;
+    document.execCommand('formatBlock', false, 'p');
+  }
+
+  parentTagActive(elem) {
+    if (!elem || !elem.classList || elem.classList.contains('playground')) {
+      return false;
+    }
+
+    // active by tag names
+    const tagName = elem.tagName.toLowerCase();
+
+    if (inlineStyles.has(tagName)) {
+      this.#eventEmitter.emit(
+        `editor.style.${inlineStyles.get(tagName)}`,
+        true,
+      );
+    }
+
+    // eslint-disable-next-line consistent-return
+    return this.parentTagActive(elem.parentElement);
   }
 }
 
@@ -53,78 +101,3 @@ function childOfEditor(child: ParentNode) {
 
   return false;
 }
-
-function getActiveButtons() {
-  const toolbar = document.querySelector('.toolbar');
-  const buttons = toolbar && toolbar.querySelectorAll('.toolbar-btn');
-  const activeStyles: string[] = [];
-  if (buttons?.length) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const btn of buttons) {
-      const elementName = btn.getAttribute('data-el');
-      if (btn.classList.contains('active') && elementName) {
-        activeStyles.push(elementName);
-      }
-    }
-  }
-
-  console.log('activeStyles =', activeStyles);
-  return activeStyles;
-}
-
-function parentTagActive(elem) {
-  if (!elem || !elem.classList || elem.classList.contains('visuell-view')) {
-    return false;
-  }
-
-  let toolbarButton;
-  // active by tag names
-  const tagName = elem.tagName.toLowerCase();
-  // eslint-disable-next-line prefer-destructuring
-  toolbarButton = document.querySelectorAll(
-    `.toolbar .button[data-el="${tagName}"]`,
-  )[0];
-  if (toolbarButton) {
-    toolbarButton.classList.add('active');
-  }
-
-  // active by text-align
-  const { textAlign } = elem.style;
-  // eslint-disable-next-line prefer-destructuring
-  toolbarButton = document.querySelectorAll(
-    `.toolbar .button[data-style="textAlign:${textAlign}"]`,
-  )[0];
-  if (toolbarButton) {
-    toolbarButton.classList.add('active');
-  }
-
-  // eslint-disable-next-line consistent-return
-  return parentTagActive(elem.parentElement);
-}
-
-// export function getTextBlockStyle(editor) {
-//   const { selection } = editor;
-//   if (selection == null) {
-//     return null;
-//   }
-//   // gives the forward-direction points in case the selection was
-//   // was backwards.
-//   const [start, end] = Range.edges(selection);
-
-//   // path[0] gives us the index of the top-level block.
-//   let startTopLevelBlockIndex = start.path[0];
-//   const endTopLevelBlockIndex = end.path[0];
-
-//   let blockType = null;
-//   while (startTopLevelBlockIndex <= endTopLevelBlockIndex) {
-//     const [node, _] = Editor.node(editor, [startTopLevelBlockIndex]);
-//     if (blockType == null) {
-//       blockType = node.type;
-//     } else if (blockType !== node.type) {
-//       return 'multiple';
-//     }
-//     startTopLevelBlockIndex += 1;
-//   }
-
-//   return blockType;
-// }
