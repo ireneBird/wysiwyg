@@ -8,4 +8,8 @@ class Select implements SelectInterface {
   open(): void {
     console.log(this.name);
   }
+
+  renderOptions(parent: HTMLElement) {
+    console.log(this.name);
+  }
 }

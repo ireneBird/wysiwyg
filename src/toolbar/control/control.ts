@@ -13,9 +13,9 @@ class Control implements ControlInterface {
 
   #element: HTMLButtonElement;
 
-  readonly #editorEventName: string;
-
   readonly #eventName: string;
+
+  readonly #groupEventName?: string;
 
   isActive = false;
 
@@ -23,12 +23,12 @@ class Control implements ControlInterface {
 
   constructor(
     name: string,
-    { toolbarElement, toolbarEventName, editorEventName }: ControlOptions,
+    { toolbarElement, emitEventName, groupEmitEventName }: ControlOptions,
   ) {
     this.name = name;
 
-    this.#eventName = toolbarEventName;
-    this.#editorEventName = editorEventName;
+    this.#eventName = emitEventName;
+    this.#groupEventName = groupEmitEventName;
 
     this.#element = this.render<HTMLButtonElement>(toolbarElement);
 
@@ -37,12 +37,33 @@ class Control implements ControlInterface {
     this.#addEvents();
   }
 
+  setActiveStatus(status: boolean) {
+    this.isActive = status;
+
+    this.#changeElementActiveClass();
+  }
+
+  fire(event): void {
+    if (this.#groupEventName) {
+      this.#eventEmitter.emit(this.#groupEventName, {
+        value: this.name,
+        title: this.name,
+      });
+
+      return;
+    }
+
+    this.#eventEmitter.emit(this.#eventName, event);
+    this.isActive = !this.isActive;
+    this.#changeElementActiveClass();
+  }
+
+  render<T extends Node>(parent: HTMLElement): T {
+    return renderElement<T>(parent, getControlTemplate(this.name, this.name));
+  }
+
   #addEvents() {
     this.#element.addEventListener(`click`, this.fire);
-    this.#eventEmitter.on(this.#editorEventName, (isActive: boolean) => {
-      this.isActive = isActive;
-      this.#changeElementActiveClass();
-    });
   }
 
   #changeElementActiveClass() {
@@ -51,16 +72,6 @@ class Control implements ControlInterface {
     } else {
       this.#element.classList.remove(ACTIVE_CLASS);
     }
-  }
-
-  fire(event): void {
-    this.#eventEmitter.emit(this.#eventName, event);
-    this.isActive = !this.isActive;
-    this.#changeElementActiveClass();
-  }
-
-  render<T extends Node>(parent: HTMLElement): T {
-    return renderElement<T>(parent, getControlTemplate(this.name, this.name));
   }
 }
 

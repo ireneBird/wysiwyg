@@ -2,6 +2,7 @@ export interface Control {
   name: string | undefined;
   isActive: boolean;
   fire(event: Event): void;
+  setActiveStatus(status: boolean);
   render<T extends Node>(parent: HTMLElement): T;
 }
 
@@ -13,6 +14,7 @@ export interface SelectOption {
 export interface Group {
   name: string;
   activeOption: SelectOption | undefined;
+  renderOptions(parent: HTMLElement);
 }
 
 export interface Select extends Group {
@@ -21,10 +23,10 @@ export interface Select extends Group {
 }
 
 export interface ButtonsGroup extends Group {
-  buttons: Control[];
+  controls: Map<string, Control>;
 }
 
 export interface Toolbar {
-  controls: Array<Control | ButtonsGroup | Select>;
-  addControl(control: Control): void;
+  controls: Map<string, Control | ButtonsGroup | Select>;
+  addControl(name: string, control: Control | ButtonsGroup | Select): void;
 }
