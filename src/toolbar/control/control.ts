@@ -14,8 +14,6 @@ class Control implements ControlInterface {
 
   #element: HTMLButtonElement;
 
-  readonly #editorEventName: string;
-
   readonly #eventName: string;
 
   readonly #groupEventName?: string;
@@ -26,18 +24,12 @@ class Control implements ControlInterface {
 
   constructor(
     name: string,
-    {
-      toolbarElement,
-      toolbarEventName,
-      editorEventName,
-      groupEventName,
-    }: ControlOptions,
+    { toolbarElement, emitEventName, groupEmitEventName }: ControlOptions,
   ) {
     this.name = name;
 
-    this.#eventName = toolbarEventName;
-    this.#editorEventName = editorEventName;
-    this.#groupEventName = groupEventName;
+    this.#eventName = emitEventName;
+    this.#groupEventName = groupEmitEventName;
 
     this.#element = this.render<HTMLButtonElement>(toolbarElement);
 
@@ -46,13 +38,14 @@ class Control implements ControlInterface {
     this.#addEvents();
   }
 
+  setActiveStatus(status: boolean) {
+    this.isActive = status;
+
+    this.#changeElementActiveClass();
+  }
+
   #addEvents() {
     this.#element.addEventListener(`click`, this.fire);
-
-    this.#eventEmitter.on(this.#editorEventName, (isActive: boolean) => {
-      this.isActive = isActive;
-      this.#changeElementActiveClass();
-    });
   }
 
   #changeElementActiveClass() {

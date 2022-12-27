@@ -27,31 +27,29 @@ class ButtonsGroup implements ButtonsGroupInterface {
     this.#emitter.on(`group.style.${this.name}`, this.activationOption);
   }
 
-  activationOption(activeOption: SelectOption) {
-    if (this.activeOption) {
-      if (this.activeOption.value !== activeOption.value) {
-        this.#emitter.emit(`editor.style.${this.activeOption.value}`, false);
-        this.activeOption = activeOption;
-        this.#emitter.emit(`editor.style.${this.activeOption.value}`, true);
-      } else {
-        this.#emitter.emit(`editor.style.${this.activeOption.value}`, false);
-        this.activeOption = undefined;
-      }
+  activationOption(newActiveOption: SelectOption) {
+    if (!this.activeOption) {
+      this.activeOption = newActiveOption;
+      this.controls.get(this.activeOption.value)?.setActiveStatus(true);
+
       return;
     }
 
-    if (!this.activeOption) {
-      this.activeOption = activeOption;
-      this.#emitter.emit(`editor.style.${this.activeOption.value}`, true);
+    if (this.activeOption.value !== newActiveOption.value) {
+      this.controls.get(this.activeOption.value)?.setActiveStatus(false);
+      this.controls.get(newActiveOption.value)?.setActiveStatus(true);
+      this.activeOption = newActiveOption;
+    } else {
+      this.controls.get(this.activeOption.value)?.setActiveStatus(false);
+      this.activeOption = newActiveOption;
     }
   }
 
   renderOptions(parent: HTMLElement) {
     this.controlsOptions.forEach(name => {
       const control = new Control(name, {
-        toolbarEventName: `toolbar.style.${name}`,
-        editorEventName: `editor.style.${name}`,
-        groupEventName: `group.style.${this.name}`,
+        emitEventName: `toolbar.inline.${name}`,
+        groupEmitEventName: `group.style.${this.name}`,
         toolbarElement: parent,
       });
 

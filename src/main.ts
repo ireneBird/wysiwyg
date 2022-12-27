@@ -4,6 +4,7 @@ import Toolbar from './toolbar/toolbar';
 
 // eslint-disable-next-line no-new
 new Toolbar({
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   element: document.querySelector(`#toolbar`)!,
   controls: [
     'bold-01',
@@ -16,3 +17,8 @@ new Toolbar({
     'x-close',
   ],
 });
+
+// Этот вызов активирует кнопки bold и italic
+// setTimeout(() => {
+//   eventEmitter.emit(`toolbar.active`, [`bold-01`, `italic-01`]);
+// }, 100);
