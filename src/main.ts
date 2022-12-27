@@ -1,6 +1,7 @@
 import './assets/styles/main.scss';
 
 import Toolbar from './toolbar/toolbar';
+import eventEmitter from './event-emitter';
 
 // eslint-disable-next-line no-new
 new Toolbar({
@@ -19,6 +20,6 @@ new Toolbar({
 });
 
 // Этот вызов активирует кнопки bold и italic
-// setTimeout(() => {
-//   eventEmitter.emit(`toolbar.active`, [`bold-01`, `italic-01`]);
-// }, 100);
+setTimeout(() => {
+  eventEmitter.emit(`toolbar.active`, [`bold-01`, `italic-01`, `align-center`]);
+}, 100);

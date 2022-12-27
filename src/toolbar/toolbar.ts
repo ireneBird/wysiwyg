@@ -16,6 +16,8 @@ export type ToolbarOptions = {
 class Toolbar implements ToolbarInterface {
   #eventEmitter = emitter;
 
+  readonly #groupNames: string[] = [];
+
   readonly #element: HTMLElement;
 
   controls: Map<string, ControlInterface | ButtonsGroupInterface | Select> =
@@ -35,11 +37,9 @@ class Toolbar implements ToolbarInterface {
             'align-right',
           ],
         });
-
+        this.#groupNames.push(name);
         this.addControl(name, alignButtonsGroup);
-
         alignButtonsGroup.renderOptions(this.#element);
-
         return;
       }
 
@@ -56,8 +56,26 @@ class Toolbar implements ToolbarInterface {
     this.#eventEmitter.on(`toolbar.active`, this.activateControls);
   }
 
+  #getButtonsGroupName(name: string): string | undefined {
+    return this.#groupNames.find(groupName => name.includes(groupName));
+  }
+
   activateControls(options: string[]) {
     options.forEach(name => {
+      const buttonsGroupName = this.#getButtonsGroupName(name);
+
+      if (buttonsGroupName) {
+        const buttonsGroup = this.controls.get(buttonsGroupName);
+
+        if (buttonsGroup instanceof ButtonsGroup) {
+          buttonsGroup.activationOption({
+            value: name,
+            title: name,
+          });
+        }
+        return;
+      }
+
       const control = this.controls.get(name);
 
       if (control instanceof Control) {
