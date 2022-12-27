@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es6",
     "target": "es6",
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -11,7 +11,7 @@
     "noImplicitOverride": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./dist"
+    "outDir": "./dist/"
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "node_modules"]
