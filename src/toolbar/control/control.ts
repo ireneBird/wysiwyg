@@ -1,4 +1,3 @@
-import { EventEmitter2 } from 'eventemitter2';
 import { Control as ControlInterface } from '../interface';
 import eventEmitter from '../../event-emitter';
 import { ControlOptions } from '../types';
@@ -7,10 +6,10 @@ import { renderElement } from '../../helpers';
 const ACTIVE_CLASS = `active`;
 
 const getControlTemplate = (id: string, iconName: string): string =>
-  `<button class="button" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+  `<button class="toolbar__btn" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
 
 class Control implements ControlInterface {
-  #eventEmitter: EventEmitter2 = eventEmitter;
+  #eventEmitter = eventEmitter;
 
   #element: HTMLButtonElement;
 
@@ -40,7 +39,6 @@ class Control implements ControlInterface {
 
   #addEvents() {
     this.#element.addEventListener(`click`, this.fire);
-
     this.#eventEmitter.on(this.#editorEventName, (isActive: boolean) => {
       this.isActive = isActive;
       this.#changeElementActiveClass();
@@ -55,8 +53,8 @@ class Control implements ControlInterface {
     }
   }
 
-  fire(): void {
-    this.#eventEmitter.emit(this.#eventName);
+  fire(event): void {
+    this.#eventEmitter.emit(this.#eventName, event);
     this.isActive = !this.isActive;
     this.#changeElementActiveClass();
   }

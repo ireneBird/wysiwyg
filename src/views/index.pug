@@ -1,5 +1,5 @@
 include mixins/_dropdown
-- let buttonIconNames = ["bold-01", "italic-01", "underline-01", "strikethrough-01", "align-center", "align-justify", "align-left", "align-right", "corner-up-left", "corner-up-right", "x-close"];
+- let buttonIconNames = ["bold", "italic", "underline", "strikeThrough", "align-center", "align-justify", "align-left", "align-right", "corner-up-left", "corner-up-right", "x-close"];
 - let optionsHeading = { h1: "Heading 1", h2: "Heading 2", p: "Paragraph", blockquote: "Blockquote" };
 - let optionsFonts = { helvetica: "Helvetica", arial: "Arial", verdana: "Verdana", timesNewRoman: "Times New Roman", tahoma: "Tahoma", terminal: "Terminal", impact: "Impact" };
 
@@ -17,7 +17,7 @@ html(lang="en")
     h1.title Wysiwig - editor
     .editor
       .panel
-        .toolbar#toolbar
+        #toolbar.toolbar
           +dropdown(optionsHeading, optionsHeading.h1, 'headingDD', 'tag')
           +dropdown(optionsFonts, optionsFonts.arial, 'fontsDD', 'font')
           // each name in buttonIconNames

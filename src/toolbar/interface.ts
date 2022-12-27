@@ -1,7 +1,7 @@
 export interface Control {
   name: string | undefined;
   isActive: boolean;
-  fire(): void;
+  fire(event: Event): void;
   render<T extends Node>(parent: HTMLElement): T;
 }
 

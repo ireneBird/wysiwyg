@@ -34,6 +34,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &__btn {
+    background: none;
+    border: none;
+    border-radius: 3px;
+    &:hover,
+    &.active {
+      color: var(--button-hover-text);
+      background: var(--button-hover);
+    }
+  }
 }
 
 .toolbar > *:not(:last-child) {
@@ -49,18 +60,6 @@ body {
   height: 100%;
   padding: 10px 15px;
   outline: none;
-}
-
-.button {
-  background: none;
-  border: none;
-  border-radius: 3px;
-}
-
-.button:hover,
-.button.active {
-  color: var(--button-hover-text);
-  background: var(--button-hover);
 }
 
 button {
