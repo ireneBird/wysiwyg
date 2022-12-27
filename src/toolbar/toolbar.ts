@@ -56,10 +56,6 @@ class Toolbar implements ToolbarInterface {
     this.#eventEmitter.on(`toolbar.active`, this.activateControls);
   }
 
-  #getButtonsGroupName(name: string): string | undefined {
-    return this.#groupNames.find(groupName => name.includes(groupName));
-  }
-
   activateControls(options: string[]) {
     options.forEach(name => {
       const buttonsGroupName = this.#getButtonsGroupName(name);
@@ -89,6 +85,10 @@ class Toolbar implements ToolbarInterface {
     control: ControlInterface | ButtonsGroupInterface | Select,
   ): void {
     this.controls.set(name, control);
+  }
+
+  #getButtonsGroupName(name: string): string | undefined {
+    return this.#groupNames.find(groupName => name.includes(groupName));
   }
 }
 

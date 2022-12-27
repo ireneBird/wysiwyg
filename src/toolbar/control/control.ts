@@ -44,18 +44,6 @@ class Control implements ControlInterface {
     this.#changeElementActiveClass();
   }
 
-  #addEvents() {
-    this.#element.addEventListener(`click`, this.fire);
-  }
-
-  #changeElementActiveClass() {
-    if (this.isActive) {
-      this.#element.classList.add(ACTIVE_CLASS);
-    } else {
-      this.#element.classList.remove(ACTIVE_CLASS);
-    }
-  }
-
   fire(): void {
     if (this.#groupEventName) {
       this.#eventEmitter.emit(this.#groupEventName, {
@@ -73,6 +61,18 @@ class Control implements ControlInterface {
 
   render<T extends Node>(parent: HTMLElement): T {
     return renderElement<T>(parent, getControlTemplate(this.name, this.name));
+  }
+
+  #addEvents() {
+    this.#element.addEventListener(`click`, this.fire);
+  }
+
+  #changeElementActiveClass() {
+    if (this.isActive) {
+      this.#element.classList.add(ACTIVE_CLASS);
+    } else {
+      this.#element.classList.remove(ACTIVE_CLASS);
+    }
   }
 }
 
