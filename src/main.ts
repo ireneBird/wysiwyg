@@ -23,5 +23,5 @@ new Toolbar({
 
 // Этот вызов активирует кнопки bold и italic
 // setTimeout(() => {
-//   eventEmitter.emit(`toolbar.active`, [`bold-01`, `italic-01`, `align-center`]);
+//   eventEmitter.emit(`toolbar.active`, [`bold`, `italic`, `align-center`]);
 // }, 100);

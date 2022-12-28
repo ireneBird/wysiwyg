@@ -57,6 +57,13 @@ class ButtonsGroup implements ButtonsGroupInterface {
     });
   }
 
+  deactivateCurrentOption() {
+    if (this.activeOption) {
+      this.controls.get(this.activeOption.value)?.setActiveStatus(false);
+      this.activeOption = undefined;
+    }
+  }
+
   addControl(controlName: string, control: ControlInterface): void {
     this.controls.set(controlName, control);
   }
