@@ -40,14 +40,12 @@ export default class Editor {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const style of inlineStyles.values()) {
-      this.#eventEmitter.on(`toolbar.style.${style}`, this.changeStyle);
+      this.#eventEmitter.on(`toolbar.inline.${style}`, this.changeStyle);
     }
   }
 
   onClick(e) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const style of inlineStyles.values())
-      this.#eventEmitter.emit(`editor.style.${style}`, false);
+    this.#eventEmitter.emit('toolbar.active', []);
 
     this.parentTagActive(e.path[0]);
   }
@@ -82,14 +80,15 @@ export default class Editor {
 
     // active by tag names
     const tagName = elem.tagName.toLowerCase();
+    const command = inlineStyles.get(tagName);
+    const currentStyles: string[] = [];
 
-    if (inlineStyles.has(tagName)) {
-      this.#eventEmitter.emit(
-        `editor.style.${inlineStyles.get(tagName)}`,
-        true,
-      );
+    if (command) {
+      currentStyles.push(command);
     }
-
+    if (currentStyles?.length) {
+      this.#eventEmitter.emit('toolbar.active', currentStyles);
+    }
     // eslint-disable-next-line consistent-return
     return this.parentTagActive(elem.parentElement);
   }
