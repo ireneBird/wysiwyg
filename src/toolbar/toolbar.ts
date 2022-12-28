@@ -56,7 +56,22 @@ class Toolbar implements ToolbarInterface {
     this.#eventEmitter.on(`toolbar.active`, this.activateControls);
   }
 
+  #deactivateAllControls() {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of this.controls) {
+      if (value instanceof Control) {
+        value.setActiveStatus(false);
+      }
+
+      if (value instanceof ButtonsGroup) {
+        value.deactivateCurrentOption();
+      }
+    }
+  }
+
   activateControls(options: string[]) {
+    this.#deactivateAllControls();
+
     options.forEach(name => {
       const buttonsGroupName = this.#getButtonsGroupName(name);
 
