@@ -16,6 +16,9 @@ export default class Editor {
 
   #eventEmitter = emitter;
 
+  // using inline tags
+  #selectedInlineStyles: string[] = [];
+
   constructor({ element }) {
     this.#field = element;
     this.selection = document.getSelection();
@@ -74,21 +77,27 @@ export default class Editor {
   }
 
   parentTagActive(elem) {
+    if (
+      elem.classList.contains('playground') &&
+      this.#selectedInlineStyles?.length
+    ) {
+      console.log(this.#selectedInlineStyles);
+      this.#eventEmitter.emit('toolbar.active', this.#selectedInlineStyles);
+    }
+
     if (!elem || !elem.classList || elem.classList.contains('playground')) {
+      this.#selectedInlineStyles = [];
       return false;
     }
 
     // active by tag names
     const tagName = elem.tagName.toLowerCase();
     const command = inlineStyles.get(tagName);
-    const currentStyles: string[] = [];
 
     if (command) {
-      currentStyles.push(command);
+      this.#selectedInlineStyles.push(command);
     }
-    if (currentStyles?.length) {
-      this.#eventEmitter.emit('toolbar.active', currentStyles);
-    }
+
     // eslint-disable-next-line consistent-return
     return this.parentTagActive(elem.parentElement);
   }
