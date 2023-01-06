@@ -1,9 +1,12 @@
 export interface Control {
   name: string | undefined;
-  isActive: boolean;
   fire(event: Event): void;
-  setActiveStatus(status: boolean);
   render<T extends Node>(parent: HTMLElement): T;
+}
+
+export interface ButtonControl extends Control {
+  isActive: boolean;
+  setActiveStatus(status: boolean);
 }
 
 export interface SelectOption {
@@ -26,10 +29,15 @@ export interface Select extends Group {
 }
 
 export interface ButtonsGroup extends Group {
-  controls: Map<string, Control>;
+  controls: Map<string, ButtonControl>;
+  addControl(name: string, control: ButtonControl): void;
+  deactivateCurrentOption(): void;
 }
 
 export interface Toolbar {
-  controls: Map<string, Control | ButtonsGroup | Select>;
-  addControl(name: string, control: Control | ButtonsGroup | Select): void;
+  controls: Map<string, ButtonControl | ButtonsGroup | Select>;
+  addControl(
+    name: string,
+    control: ButtonControl | ButtonsGroup | Select,
+  ): void;
 }

@@ -1,6 +1,6 @@
 import {
+  ButtonControl,
   ButtonsGroup as ButtonsGroupInterface,
-  Control as ControlInterface,
   SelectOption,
 } from '../interface';
 import Control from '../control/control';
@@ -11,7 +11,7 @@ class ButtonsGroup implements ButtonsGroupInterface {
 
   activeOption: SelectOption | undefined;
 
-  controls: Map<string, ControlInterface> = new Map();
+  controls: Map<string, ButtonControl> = new Map();
 
   controlsOptions: string[];
 
@@ -27,7 +27,7 @@ class ButtonsGroup implements ButtonsGroupInterface {
     this.#emitter.on(`group.style.${this.name}`, this.activationOption);
   }
 
-  activationOption(newActiveOption: SelectOption) {
+  activationOption(newActiveOption: SelectOption): void {
     if (!this.activeOption) {
       this.activeOption = newActiveOption;
       this.controls.get(this.activeOption.value)?.setActiveStatus(true);
@@ -45,7 +45,7 @@ class ButtonsGroup implements ButtonsGroupInterface {
     }
   }
 
-  renderOptions(parent: HTMLElement) {
+  renderOptions(parent: HTMLElement): void {
     this.controlsOptions.forEach(name => {
       const control = new Control(name, {
         emitEventName: `toolbar.inline.${name}`,
@@ -57,14 +57,14 @@ class ButtonsGroup implements ButtonsGroupInterface {
     });
   }
 
-  deactivateCurrentOption() {
+  deactivateCurrentOption(): void {
     if (this.activeOption) {
       this.controls.get(this.activeOption.value)?.setActiveStatus(false);
       this.activeOption = undefined;
     }
   }
 
-  addControl(controlName: string, control: ControlInterface): void {
+  addControl(controlName: string, control: ButtonControl): void {
     this.controls.set(controlName, control);
   }
 }

@@ -1,4 +1,4 @@
-import { Control as ControlInterface } from '../interface';
+import { ButtonControl } from '../interface';
 import eventEmitter from '../../event-emitter';
 import { ControlOptions } from '../types';
 import { renderElement } from '../../helpers';
@@ -8,7 +8,7 @@ const ACTIVE_CLASS = `active`;
 const getControlTemplate = (id: string, iconName: string): string =>
   `<button class="toolbar__btn" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
 
-class Control implements ControlInterface {
+class Control implements ButtonControl {
   #eventEmitter = eventEmitter;
 
   #element: HTMLButtonElement;

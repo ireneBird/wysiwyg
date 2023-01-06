@@ -1,7 +1,7 @@
 import Control from './control/control';
 import {
+  ButtonControl,
   ButtonsGroup as ButtonsGroupInterface,
-  Control as ControlInterface,
   Select,
   Toolbar as ToolbarInterface,
 } from './interface';
@@ -20,7 +20,7 @@ class Toolbar implements ToolbarInterface {
 
   readonly #element: HTMLElement;
 
-  controls: Map<string, ControlInterface | ButtonsGroupInterface | Select> =
+  controls: Map<string, ButtonControl | ButtonsGroupInterface | Select> =
     new Map();
 
   constructor({ element, controls }: ToolbarOptions) {
@@ -97,7 +97,7 @@ class Toolbar implements ToolbarInterface {
 
   addControl(
     name: string,
-    control: ControlInterface | ButtonsGroupInterface | Select,
+    control: ButtonControl | ButtonsGroupInterface | Select,
   ): void {
     this.controls.set(name, control);
   }
