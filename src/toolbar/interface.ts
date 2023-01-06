@@ -14,12 +14,15 @@ export interface SelectOption {
 export interface Group {
   name: string;
   activeOption: SelectOption | undefined;
-  renderOptions(parent: HTMLElement);
+  renderOptions(parent: HTMLElement, options?: string[]): void;
 }
 
 export interface Select extends Group {
+  options: Map<string, Control>;
   open(): void;
-  options: Control[];
+  close(): void;
+  render(parent: HTMLElement): HTMLElement;
+  isOpen: boolean;
 }
 
 export interface ButtonsGroup extends Group {
