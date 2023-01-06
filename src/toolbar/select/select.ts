@@ -1,6 +1,8 @@
 import { Control, Select as SelectInterface, SelectOption } from '../interface';
 import eventEmitter from '../../event-emitter';
 import { renderElement } from '../../helpers';
+import { SelectControlOption } from '../types';
+import SelectControl from '../select-control/select-control';
 
 const getSelectElement = name => {
   return `<div class="dropdown">
@@ -26,7 +28,7 @@ class Select implements SelectInterface {
 
   constructor(
     public name: string,
-    options: string[],
+    options: SelectControlOption[],
     toolbarElement: HTMLElement,
   ) {
     this.#element = this.render(toolbarElement);
@@ -65,10 +67,22 @@ class Select implements SelectInterface {
     this.isOpen = false;
   }
 
-  renderOptions(parent: HTMLElement, options) {
-    options.forEach((option: string) => {
-      console.log(option, this.name);
+  renderOptions(parent: HTMLElement, options: SelectControlOption[]) {
+    options.forEach((option: SelectControlOption) => {
+      const control = new SelectControl(option.name, {
+        selectElement: this.#optionList,
+        emitEventName: '',
+        selectEmitEventName: '',
+        inlineStyle: option.inlineStyle,
+        tagName: option.tagName,
+      });
+
+      this.addOption(option.name, control);
     });
+  }
+
+  addOption(name: string, control: Control) {
+    this.options.set(name, control);
   }
 
   render(parent: HTMLElement): HTMLElement {
