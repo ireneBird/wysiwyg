@@ -2,11 +2,27 @@ import Control from './control/control';
 import {
   ButtonControl,
   ButtonsGroup as ButtonsGroupInterface,
-  Select,
+  Select as SelectInterface,
   Toolbar as ToolbarInterface,
 } from './interface';
 import ButtonsGroup from './buttons-group/buttons-group';
 import emitter from '../event-emitter';
+import { Select } from './select/select';
+
+const blocksSelectOptions = [
+  {
+    name: `Paragraph`,
+    tagName: `p`,
+  },
+  {
+    name: `Heading 1`,
+    tagName: `h1`,
+  },
+  {
+    name: `Heading 2`,
+    tagName: `h2`,
+  },
+];
 
 export type ToolbarOptions = {
   element: HTMLElement;
@@ -20,13 +36,26 @@ class Toolbar implements ToolbarInterface {
 
   readonly #element: HTMLElement;
 
-  controls: Map<string, ButtonControl | ButtonsGroupInterface | Select> =
-    new Map();
+  controls: Map<
+    string,
+    ButtonControl | ButtonsGroupInterface | SelectInterface
+  > = new Map();
 
   constructor({ element, controls }: ToolbarOptions) {
     this.#element = element;
 
     controls.forEach((name: string): void => {
+      if (name === `blocks`) {
+        const blocksSelect: SelectInterface = new Select(
+          `blocks`,
+          blocksSelectOptions,
+          this.#element,
+        );
+        this.#groupNames.push(name);
+        this.addControl(name, blocksSelect);
+        return;
+      }
+
       if (name === `align`) {
         const alignButtonsGroup: ButtonsGroupInterface = new ButtonsGroup({
           name: 'align',
@@ -97,7 +126,7 @@ class Toolbar implements ToolbarInterface {
 
   addControl(
     name: string,
-    control: ButtonControl | ButtonsGroupInterface | Select,
+    control: ButtonControl | ButtonsGroupInterface | SelectInterface,
   ): void {
     this.controls.set(name, control);
   }

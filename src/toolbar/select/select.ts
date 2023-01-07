@@ -16,7 +16,7 @@ class Select implements SelectInterface {
 
   #element: HTMLElement;
 
-  #optionList: HTMLUListElement;
+  readonly #optionList: HTMLUListElement;
 
   #openButton: HTMLButtonElement;
 
@@ -37,9 +37,17 @@ class Select implements SelectInterface {
 
     this.#openButton = this.#element.querySelector(`.dropdown__btn`)!;
 
+    this.renderOptions(this.#optionList, options);
+
+    this.#changeButtonTextContent(options[0].name);
+
     this.activationOption = this.activationOption.bind(this);
+    this.onOpenButtonClick = this.onOpenButtonClick.bind(this);
+    this.onWindowClick = this.onWindowClick.bind(this);
 
     this.#eventEmitter.on(`select.${this.name}.change`, this.activationOption);
+
+    this.#addEvents();
   }
 
   activationOption(option: SelectOption) {
@@ -47,14 +55,14 @@ class Select implements SelectInterface {
 
     if (!this.activeOption) {
       this.activeOption = option;
-      // return;
+      this.#changeButtonTextContent(option.title);
+      return;
     }
 
-    // if (this.activeOption.value !== option.value) {
-    //   this.activeOption = option;
-    // } else {
-    //   this.activeOption = option;
-    // }
+    if (this.activeOption.value !== option.value) {
+      this.activeOption = option;
+      this.#changeButtonTextContent(option.title);
+    }
   }
 
   open(): void {
@@ -72,7 +80,7 @@ class Select implements SelectInterface {
       const control = new SelectControl(option.name, {
         selectElement: this.#optionList,
         emitEventName: '',
-        selectEmitEventName: '',
+        selectEmitEventName: `select.${this.name}.change`,
         inlineStyle: option.inlineStyle,
         tagName: option.tagName,
       });
@@ -81,11 +89,41 @@ class Select implements SelectInterface {
     });
   }
 
+  render(parent: HTMLElement): HTMLElement {
+    return renderElement(parent, getSelectElement(this.name));
+  }
+
   addOption(name: string, control: Control) {
     this.options.set(name, control);
   }
 
-  render(parent: HTMLElement): HTMLElement {
-    return renderElement(parent, getSelectElement(this.name));
+  #changeButtonTextContent(text: string) {
+    this.#openButton.textContent = text;
+  }
+
+  #addEvents() {
+    this.#openButton.addEventListener(`click`, this.onOpenButtonClick);
+    window.addEventListener(`click`, this.onWindowClick);
+  }
+
+  onOpenButtonClick(evt: Event) {
+    evt.preventDefault();
+
+    if (!this.isOpen) {
+      this.open();
+    } else {
+      this.close();
+    }
+  }
+
+  onWindowClick(evt: Event) {
+    if (
+      this.isOpen &&
+      (evt.target as HTMLElement).closest(`.dropdown`) !== this.#element
+    ) {
+      this.close();
+    }
   }
 }
+
+export { Select };

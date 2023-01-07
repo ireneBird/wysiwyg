@@ -10,6 +10,7 @@ new Toolbar({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   element: document.querySelector(`#toolbar`)!,
   controls: [
+    'blocks',
     'bold',
     'italic',
     'underline',
