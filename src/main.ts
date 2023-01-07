@@ -11,6 +11,7 @@ new Toolbar({
   element: document.querySelector(`#toolbar`)!,
   controls: [
     'blocks',
+    'fonts',
     'bold',
     'italic',
     'underline',

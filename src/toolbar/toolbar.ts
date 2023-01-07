@@ -8,21 +8,7 @@ import {
 import ButtonsGroup from './buttons-group/buttons-group';
 import emitter from '../event-emitter';
 import { Select } from './select/select';
-
-const blocksSelectOptions = [
-  {
-    name: `Paragraph`,
-    tagName: `p`,
-  },
-  {
-    name: `Heading 1`,
-    tagName: `h1`,
-  },
-  {
-    name: `Heading 2`,
-    tagName: `h2`,
-  },
-];
+import { blocksSelectOptions, fontsSelectOptions } from './constants';
 
 export type ToolbarOptions = {
   element: HTMLElement;
@@ -49,6 +35,17 @@ class Toolbar implements ToolbarInterface {
         const blocksSelect: SelectInterface = new Select(
           `blocks`,
           blocksSelectOptions,
+          this.#element,
+        );
+        this.#groupNames.push(name);
+        this.addControl(name, blocksSelect);
+        return;
+      }
+
+      if (name === `fonts`) {
+        const blocksSelect: SelectInterface = new Select(
+          `fonts`,
+          fontsSelectOptions,
           this.#element,
         );
         this.#groupNames.push(name);
