@@ -23,7 +23,12 @@ new Toolbar({
   ],
 });
 
-// Этот вызов активирует кнопки bold и italic
+// Этот вызов активирует кнопки Heading 2, Arial, align-center и italic
 // setTimeout(() => {
-//   eventEmitter.emit(`toolbar.active`, [`bold`, `italic`, `align-center`]);
-// }, 100);
+//   eventEmitter.emit(`toolbar.active`, [
+//     `Heading 2`,
+//     `Arial`,
+//     `italic`,
+//     `align-center`,
+//   ]);
+// }, 10000);

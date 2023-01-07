@@ -14,11 +14,13 @@ const getSelectElement = name => {
 class Select implements SelectInterface {
   #eventEmitter = eventEmitter;
 
-  #element: HTMLElement;
+  readonly #element: HTMLElement;
 
   readonly #optionList: HTMLUListElement;
 
   #openButton: HTMLButtonElement;
+
+  readonly #defaultValue: string;
 
   options: Map<string, Control> = new Map();
 
@@ -39,7 +41,9 @@ class Select implements SelectInterface {
 
     this.renderOptions(this.#optionList, options);
 
-    this.#changeButtonTextContent(options[0].name);
+    this.#defaultValue = options[0].name;
+
+    this.#changeButtonTextContent(this.#defaultValue);
 
     this.activationOption = this.activationOption.bind(this);
     this.onOpenButtonClick = this.onOpenButtonClick.bind(this);
@@ -53,16 +57,8 @@ class Select implements SelectInterface {
   activationOption(option: SelectOption) {
     this.close();
 
-    if (!this.activeOption) {
-      this.activeOption = option;
-      this.#changeButtonTextContent(option.title);
-      return;
-    }
-
-    if (this.activeOption.value !== option.value) {
-      this.activeOption = option;
-      this.#changeButtonTextContent(option.title);
-    }
+    this.activeOption = option;
+    this.#changeButtonTextContent(option.title);
   }
 
   open(): void {
@@ -79,7 +75,7 @@ class Select implements SelectInterface {
     options.forEach((option: SelectControlOption) => {
       const control = new SelectControl(option.name, {
         selectElement: this.#optionList,
-        emitEventName: '',
+        emitEventName: `toolbar.inline.${option.name}`,
         selectEmitEventName: `select.${this.name}.change`,
         inlineStyle: option.inlineStyle,
         tagName: option.tagName,
@@ -95,6 +91,10 @@ class Select implements SelectInterface {
 
   addOption(name: string, control: Control) {
     this.options.set(name, control);
+  }
+
+  showDefaultValue() {
+    this.#changeButtonTextContent(this.#defaultValue);
   }
 
   #changeButtonTextContent(text: string) {

@@ -1,5 +1,16 @@
 import { SelectControlOption } from './types';
 
+export const blocksTags = [`Paragraph`, `Heading 1`, `Heading 2`];
+export const fontsNames = [
+  `Helvetica`,
+  `Arial`,
+  `Verdana`,
+  `Times New Roman`,
+  `Tahoma`,
+  `Terminal`,
+  `Impact`,
+];
+
 export const blocksSelectOptions: SelectControlOption[] = [
   {
     name: `Paragraph`,
@@ -38,11 +49,11 @@ export const fontsSelectOptions: SelectControlOption[] = [
     },
   },
   {
+    name: `Times New Roman`,
     inlineStyle: {
       key: `font-family`,
       value: `Times New Roman`,
     },
-    name: `Times New Roman`,
   },
   {
     name: `Tahoma`,

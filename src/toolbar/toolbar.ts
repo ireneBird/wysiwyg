@@ -8,7 +8,12 @@ import {
 import ButtonsGroup from './buttons-group/buttons-group';
 import emitter from '../event-emitter';
 import { Select } from './select/select';
-import { blocksSelectOptions, fontsSelectOptions } from './constants';
+import {
+  blocksSelectOptions,
+  blocksTags,
+  fontsNames,
+  fontsSelectOptions,
+} from './constants';
 
 export type ToolbarOptions = {
   element: HTMLElement;
@@ -37,7 +42,6 @@ class Toolbar implements ToolbarInterface {
           blocksSelectOptions,
           this.#element,
         );
-        this.#groupNames.push(name);
         this.addControl(name, blocksSelect);
         return;
       }
@@ -48,7 +52,6 @@ class Toolbar implements ToolbarInterface {
           fontsSelectOptions,
           this.#element,
         );
-        this.#groupNames.push(name);
         this.addControl(name, blocksSelect);
         return;
       }
@@ -92,6 +95,10 @@ class Toolbar implements ToolbarInterface {
       if (value instanceof ButtonsGroup) {
         value.deactivateCurrentOption();
       }
+
+      if (value instanceof Select) {
+        value.showDefaultValue();
+      }
     }
   }
 
@@ -100,6 +107,7 @@ class Toolbar implements ToolbarInterface {
 
     options.forEach(name => {
       const buttonsGroupName = this.#getButtonsGroupName(name);
+      const selectName = this.#getSelectName(name);
 
       if (buttonsGroupName) {
         const buttonsGroup = this.controls.get(buttonsGroupName);
@@ -111,6 +119,17 @@ class Toolbar implements ToolbarInterface {
           });
         }
         return;
+      }
+
+      if (selectName) {
+        const select = this.controls.get(selectName);
+
+        if (select instanceof Select) {
+          select.activationOption({
+            value: name,
+            title: name,
+          });
+        }
       }
 
       const control = this.controls.get(name);
@@ -130,6 +149,18 @@ class Toolbar implements ToolbarInterface {
 
   #getButtonsGroupName(name: string): string | undefined {
     return this.#groupNames.find(groupName => name.includes(groupName));
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  #getSelectName(name: string): string | undefined {
+    switch (true) {
+      case blocksTags.includes(name):
+        return `blocks`;
+      case fontsNames.includes(name):
+        return `fonts`;
+      default:
+        return undefined;
+    }
   }
 }
 
