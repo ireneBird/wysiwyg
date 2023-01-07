@@ -1,12 +1,19 @@
 import Control from './control/control';
 import {
+  ButtonControl,
   ButtonsGroup as ButtonsGroupInterface,
-  Control as ControlInterface,
-  Select,
+  Select as SelectInterface,
   Toolbar as ToolbarInterface,
 } from './interface';
 import ButtonsGroup from './buttons-group/buttons-group';
 import emitter from '../event-emitter';
+import { Select } from './select/select';
+import {
+  blocksSelectOptions,
+  blocksTags,
+  fontsNames,
+  fontsSelectOptions,
+} from './constants';
 
 export type ToolbarOptions = {
   element: HTMLElement;
@@ -20,13 +27,35 @@ class Toolbar implements ToolbarInterface {
 
   readonly #element: HTMLElement;
 
-  controls: Map<string, ControlInterface | ButtonsGroupInterface | Select> =
-    new Map();
+  controls: Map<
+    string,
+    ButtonControl | ButtonsGroupInterface | SelectInterface
+  > = new Map();
 
   constructor({ element, controls }: ToolbarOptions) {
     this.#element = element;
 
     controls.forEach((name: string): void => {
+      if (name === `blocks`) {
+        const blocksSelect: SelectInterface = new Select(
+          `blocks`,
+          blocksSelectOptions,
+          this.#element,
+        );
+        this.addControl(name, blocksSelect);
+        return;
+      }
+
+      if (name === `fonts`) {
+        const blocksSelect: SelectInterface = new Select(
+          `fonts`,
+          fontsSelectOptions,
+          this.#element,
+        );
+        this.addControl(name, blocksSelect);
+        return;
+      }
+
       if (name === `align`) {
         const alignButtonsGroup: ButtonsGroupInterface = new ButtonsGroup({
           name: 'align',
@@ -66,6 +95,10 @@ class Toolbar implements ToolbarInterface {
       if (value instanceof ButtonsGroup) {
         value.deactivateCurrentOption();
       }
+
+      if (value instanceof Select) {
+        value.showDefaultValue();
+      }
     }
   }
 
@@ -74,6 +107,7 @@ class Toolbar implements ToolbarInterface {
 
     options.forEach(name => {
       const buttonsGroupName = this.#getButtonsGroupName(name);
+      const selectName = this.#getSelectName(name);
 
       if (buttonsGroupName) {
         const buttonsGroup = this.controls.get(buttonsGroupName);
@@ -87,6 +121,17 @@ class Toolbar implements ToolbarInterface {
         return;
       }
 
+      if (selectName) {
+        const select = this.controls.get(selectName);
+
+        if (select instanceof Select) {
+          select.activationOption({
+            value: name,
+            title: name,
+          });
+        }
+      }
+
       const control = this.controls.get(name);
 
       if (control instanceof Control) {
@@ -97,13 +142,25 @@ class Toolbar implements ToolbarInterface {
 
   addControl(
     name: string,
-    control: ControlInterface | ButtonsGroupInterface | Select,
+    control: ButtonControl | ButtonsGroupInterface | SelectInterface,
   ): void {
     this.controls.set(name, control);
   }
 
   #getButtonsGroupName(name: string): string | undefined {
     return this.#groupNames.find(groupName => name.includes(groupName));
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  #getSelectName(name: string): string | undefined {
+    switch (true) {
+      case blocksTags.includes(name):
+        return `blocks`;
+      case fontsNames.includes(name):
+        return `fonts`;
+      default:
+        return undefined;
+    }
   }
 }
 

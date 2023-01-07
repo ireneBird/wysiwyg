@@ -1,9 +1,14 @@
+import { SelectControlOption } from './types';
+
 export interface Control {
   name: string | undefined;
-  isActive: boolean;
   fire(event: Event): void;
-  setActiveStatus(status: boolean);
   render<T extends Node>(parent: HTMLElement): T;
+}
+
+export interface ButtonControl extends Control {
+  isActive: boolean;
+  setActiveStatus(status: boolean);
 }
 
 export interface SelectOption {
@@ -14,19 +19,29 @@ export interface SelectOption {
 export interface Group {
   name: string;
   activeOption: SelectOption | undefined;
-  renderOptions(parent: HTMLElement);
 }
 
 export interface Select extends Group {
+  options: Map<string, Control>;
   open(): void;
-  options: Control[];
+  close(): void;
+  renderOptions(parent: HTMLElement, options: SelectControlOption[]): void;
+  render(parent: HTMLElement): HTMLElement;
+  addOption(name: string, control: Control): void;
+  isOpen: boolean;
 }
 
 export interface ButtonsGroup extends Group {
-  controls: Map<string, Control>;
+  controls: Map<string, ButtonControl>;
+  renderOptions(parent: HTMLElement): void;
+  addControl(name: string, control: ButtonControl): void;
+  deactivateCurrentOption(): void;
 }
 
 export interface Toolbar {
-  controls: Map<string, Control | ButtonsGroup | Select>;
-  addControl(name: string, control: Control | ButtonsGroup | Select): void;
+  controls: Map<string, ButtonControl | ButtonsGroup | Select>;
+  addControl(
+    name: string,
+    control: ButtonControl | ButtonsGroup | Select,
+  ): void;
 }

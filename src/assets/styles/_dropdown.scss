@@ -1,7 +1,8 @@
 .dropdown {
+  width: 80px;
+
   &__menu {
     list-style: none;
-    padding-left: 0;
     position: absolute;
     background: var(--tools-section);
     padding: 10px;
