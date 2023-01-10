@@ -75,7 +75,9 @@ class Select implements SelectInterface {
     options.forEach((option: SelectControlOption) => {
       const control = new SelectControl(option.name, {
         selectElement: this.#optionList,
-        emitEventName: `toolbar.inline.${option.name}`,
+        emitEventName: `toolbar.${option.tagName ? `inline` : `style`}.${
+          option.tagName ? option.tagName : option.name.replace(/\s/g, ``)
+        }`,
         selectEmitEventName: `select.${this.name}.change`,
         inlineStyle: option.inlineStyle,
         tagName: option.tagName,
