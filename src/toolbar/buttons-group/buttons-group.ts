@@ -48,7 +48,7 @@ class ButtonsGroup implements ButtonsGroupInterface {
   renderOptions(parent: HTMLElement): void {
     this.controlsOptions.forEach(name => {
       const control = new Control(name, {
-        emitEventName: `toolbar.inline.${name}`,
+        emitEventName: `toolbar.style.${name}`,
         groupEmitEventName: `group.style.${this.name}`,
         toolbarElement: parent,
       });
