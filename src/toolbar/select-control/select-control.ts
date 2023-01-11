@@ -20,7 +20,7 @@ const getSelectOptionTemplate = ({
   `<li class="menu__item">
       <button class="dropdown__btn-style" ${
         inline ? `style="${inline.key}: ${inline.value}"` : ``
-      } value="${value}">
+      } data-style="${tagName || inline?.value}">
       ${tagName ? `<${tagName}>${value}</${tagName}>` : value}
     </button>
 </li>`;
@@ -76,7 +76,7 @@ class SelectControl implements ControlInterface {
   fire(event): void {
     this.#eventEmitter.emit(this.#eventName, event);
     this.#eventEmitter.emit(this.#selectEmitEventName, {
-      value: this.name,
+      value: this.#tagName || this.#inlineStyle?.value,
       title: this.name,
     });
   }

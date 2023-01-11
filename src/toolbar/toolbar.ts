@@ -60,10 +60,10 @@ class Toolbar implements ToolbarInterface {
         const alignButtonsGroup: ButtonsGroupInterface = new ButtonsGroup({
           name: 'align',
           controls: [
-            'align-center',
-            'align-justify',
-            'align-left',
-            'align-right',
+            'justifyCenter',
+            'justifyFull',
+            'justifyLeft',
+            'justifyRight',
           ],
         });
         this.#groupNames.push(name);
