@@ -35,8 +35,10 @@ class Select implements SelectInterface {
   ) {
     this.#element = this.render(toolbarElement);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.#optionList = this.#element.querySelector(`.dropdown__menu`)!;
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.#openButton = this.#element.querySelector(`.dropdown__btn`)!;
 
     this.renderOptions(this.#optionList, options);
@@ -75,7 +77,7 @@ class Select implements SelectInterface {
     options.forEach((option: SelectControlOption) => {
       const control = new SelectControl(option.name, {
         selectElement: this.#optionList,
-        emitEventName: `toolbar.${option.tagName ? `inline` : `style`}.${
+        emitEventName: `toolbar.${option.tagName ? `blockTag` : `style`}.${
           option.tagName ? option.tagName : option.name.replace(/\s/g, ``)
         }`,
         selectEmitEventName: `select.${this.name}.change`,
