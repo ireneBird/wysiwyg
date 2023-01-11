@@ -6,7 +6,7 @@ import SelectControl from '../select-control/select-control';
 
 const getSelectElement = name => {
   return `<div class="dropdown">
-    <button class="dropdown__btn" type="button"></button>
+    <button class="dropdown__btn" type="button" data-style=""></button>
     <ul class="dropdown__menu dropdown__menu_hide" id="${name}"></ul>
   </div>`;
 };
@@ -61,6 +61,7 @@ class Select implements SelectInterface {
 
     this.activeOption = option;
     this.#changeButtonTextContent(option.title);
+    this.#changeButtonDataStyle(option.value);
   }
 
   open(): void {
@@ -99,6 +100,10 @@ class Select implements SelectInterface {
 
   showDefaultValue() {
     this.#changeButtonTextContent(this.#defaultValue);
+  }
+
+  #changeButtonDataStyle(value: string) {
+    this.#openButton.dataset.style = value;
   }
 
   #changeButtonTextContent(text: string) {

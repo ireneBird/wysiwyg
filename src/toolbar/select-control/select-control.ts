@@ -76,7 +76,7 @@ class SelectControl implements ControlInterface {
   fire(event): void {
     this.#eventEmitter.emit(this.#eventName, event);
     this.#eventEmitter.emit(this.#selectEmitEventName, {
-      value: this.name,
+      value: this.#tagName || this.#inlineStyle?.value,
       title: this.name,
     });
   }
