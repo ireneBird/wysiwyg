@@ -4,7 +4,7 @@ import { renderElement } from './helpers';
 
 export type InitOptions = {
   selector: string;
-  toolbar: string[];
+  toolbar?: string[];
 };
 
 class Wysiwyg {
@@ -16,7 +16,7 @@ class Wysiwyg {
 
   #footerElement: HTMLDivElement;
 
-  readonly #toolbarOptions: string[];
+  readonly #toolbarOptions?: string[];
 
   #defaultToolbarOptions: string[] = [
     'blocks',
