@@ -82,14 +82,11 @@ class SelectControl implements ControlInterface {
   }
 
   render<T extends Node>(parent: HTMLElement): T {
-    return renderElement<T>(
-      parent,
-      getSelectOptionTemplate({
-        value: this.name,
-        inline: this.#inlineStyle,
-        tagName: this.#tagName,
-      }),
-    );
+    return renderElement<T>(parent, getSelectOptionTemplate({
+      value: this.name,
+      inline: this.#inlineStyle,
+      tagName: this.#tagName,
+    }));
   }
 
   #addEvents() {
