@@ -6,7 +6,7 @@ import SelectControl from '../select-control/select-control';
 
 const getSelectElement = name => {
   return `<div class="dropdown">
-    <button class="dropdown__btn" type="button" data-style=""></button>
+    <button class="dropdown__btn" type="button"></button>
     <ul class="dropdown__menu dropdown__menu_hide" id="${name}"></ul>
   </div>`;
 };
