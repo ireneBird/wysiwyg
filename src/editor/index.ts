@@ -2,6 +2,9 @@
 import emitter from '../event-emitter';
 
 const inlineTags = {
+  h1: 'h1',
+  h2: 'h2',
+  p: 'p',
   b: 'bold',
   i: 'italic',
   u: 'underline',
@@ -48,7 +51,7 @@ export default class Editor {
   }
 
   onClick(e) {
-    this.#eventEmitter.emit('toolbar.active', []);
+    // this.#eventEmitter.emit('toolbar.active', []);
 
     this.parentTagActive(e.path[0]);
   }
@@ -59,24 +62,40 @@ export default class Editor {
   }
 
   changeStyle(e) {
-    const activeTag = e.target.parentNode.getAttribute('id');
+    let formatBlockTag = '';
+    const activeTag = e.currentTarget.id;
+
+    if (!activeTag) {
+      formatBlockTag = e.currentTarget.value;
+    }
+
+    if (activeTag) {
+      this.#field.focus();
+      document.execCommand(activeTag);
+    } else if (formatBlockTag) {
+      document.execCommand('formatBlock', false, formatBlockTag);
+    }
 
     if (
       this.selection &&
-      this.selection.anchorOffset !== this.selection.focusOffset &&
-      activeTag
+      this.selection.anchorOffset !== this.selection.focusOffset
     ) {
-      document.execCommand(activeTag);
+      if (activeTag) {
+        document.execCommand(activeTag);
+      } else if (formatBlockTag) {
+        document.execCommand('formatBlock', false, formatBlockTag);
+      }
     }
   }
 
-  addParagraphTag() {
+  addParagraphTag(e) {
     if (window.getSelection()?.anchorNode?.parentNode?.nodeName === 'LI')
       return;
-    document.execCommand('formatBlock', false, 'p');
+    document.execCommand('formatBlock', true, 'p');
   }
 
   parentTagActive(elem) {
+    console.log(elem);
     if (
       elem.classList.contains('playground') &&
       this.#selectedInlineStyles?.length
