@@ -5,8 +5,8 @@ import { renderElement } from '../../helpers';
 
 const ACTIVE_CLASS = `active`;
 
-const getControlTemplate = (id: string, iconName: string): string =>
-  `<button class="toolbar__btn" id="${id}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
+const getControlTemplate = (style: string, iconName: string): string =>
+  `<button class="toolbar__btn" data-style="${style}"><svg class="icon"><use xlink:href="assets/icons/sprite.svg#${iconName}"></use></svg></button>`;
 
 class Control implements ButtonControl {
   #eventEmitter = eventEmitter;

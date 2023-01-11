@@ -20,7 +20,7 @@ const getSelectOptionTemplate = ({
   `<li class="menu__item">
       <button class="dropdown__btn-style" ${
         inline ? `style="${inline.key}: ${inline.value}"` : ``
-      } value="${value}">
+      } data-style="${tagName || inline?.value}">
       ${tagName ? `<${tagName}>${value}</${tagName}>` : value}
     </button>
 </li>`;
@@ -82,11 +82,14 @@ class SelectControl implements ControlInterface {
   }
 
   render<T extends Node>(parent: HTMLElement): T {
-    return renderElement<T>(parent, getSelectOptionTemplate({
-      value: this.name,
-      inline: this.#inlineStyle,
-      tagName: this.#tagName,
-    }));
+    return renderElement<T>(
+      parent,
+      getSelectOptionTemplate({
+        value: this.name,
+        inline: this.#inlineStyle,
+        tagName: this.#tagName,
+      }),
+    );
   }
 
   #addEvents() {
