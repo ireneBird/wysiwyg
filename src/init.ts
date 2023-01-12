@@ -1,6 +1,7 @@
 import Editor from './editor';
 import Toolbar from './toolbar/toolbar';
 import { renderElement } from './helpers';
+import { UndoRedo } from './undo-redo';
 
 export type InitOptions = {
   selector: string;
@@ -26,8 +27,8 @@ class Wysiwyg {
     'underline',
     'strikeThrough',
     'align',
-    'corner-up-left',
-    'corner-up-right',
+    'undo',
+    'redo',
     'x-close',
   ];
 
@@ -83,6 +84,8 @@ class Wysiwyg {
         ? this.#toolbarOptions
         : this.#defaultToolbarOptions,
     });
+    // eslint-disable-next-line no-new
+    new UndoRedo({ element: this.#editorElement });
   }
 }
 
