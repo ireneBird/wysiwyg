@@ -1,6 +1,5 @@
 import { Command } from '../interfaces';
-import { trash } from '../state/trash';
-import { history } from '../state/history';
+import { history, trash } from '../state';
 
 class Undo<T> implements Command<T> {
   #history = history;
@@ -9,7 +8,10 @@ class Undo<T> implements Command<T> {
 
   execute(): T | unknown {
     const element = this.#history.pop();
-    this.#trash.push(element);
+
+    if (element) {
+      this.#trash.push(element);
+    }
 
     return element;
   }

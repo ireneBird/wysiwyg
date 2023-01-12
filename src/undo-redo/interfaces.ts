@@ -1,5 +1,5 @@
 export interface Command<T> {
-  execute(): T | unknown;
+  execute(element?): T | unknown;
 }
 
 export interface Stack<T> {

@@ -1,6 +1,5 @@
 import { Command } from '../interfaces';
-import { history } from '../state/history';
-import { trash } from '../state/trash';
+import { history, trash } from '../state';
 
 class Redo<T> implements Command<T> {
   #history = history;
@@ -9,7 +8,10 @@ class Redo<T> implements Command<T> {
 
   execute(): T | unknown {
     const element = this.#trash.pop();
-    this.#history.push(element);
+
+    if (element) {
+      this.#history.push(element);
+    }
 
     return element;
   }

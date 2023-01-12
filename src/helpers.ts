@@ -15,4 +15,18 @@ function renderElement<T extends Node>(
   return element;
 }
 
-export { renderElement };
+function debounce<T>(cb: (...args: T[]) => void, interval: number) {
+  let lastTimeout: number | null = null;
+
+  return (...args) => {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+
+    lastTimeout = window.setTimeout(() => {
+      cb(...args);
+    }, interval);
+  };
+}
+
+export { renderElement, debounce };

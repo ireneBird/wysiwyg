@@ -20,6 +20,8 @@ export type ToolbarOptions = {
   controls: string[];
 };
 
+const actionButtonsNames = [`undo`, `redo`];
+
 class Toolbar implements ToolbarInterface {
   #eventEmitter = emitter;
 
@@ -73,7 +75,9 @@ class Toolbar implements ToolbarInterface {
       }
 
       const control = new Control(name, {
-        emitEventName: `toolbar.inline.${name}`,
+        emitEventName: `toolbar.${
+          actionButtonsNames.includes(name) ? `action` : `inline`
+        }.${name}`,
         toolbarElement: this.#element,
       });
 
