@@ -2,6 +2,13 @@
 import emitter from '../event-emitter';
 import { blocksSelectOptions, fontsSelectOptions } from '../toolbar/constants';
 
+const alignOptions = [
+  'justifyCenter',
+  'justifyFull',
+  'justifyLeft',
+  'justifyRight',
+];
+
 const inlineTags = {
   b: 'bold',
   i: 'italic',
@@ -13,9 +20,7 @@ const inlineStyles = new Map(Object.entries(inlineTags));
 export default class Editor {
   #field: HTMLDivElement;
 
-  #curentBlockTag = 'p';
-
-  // selection: Selection | null;
+  #curentBlockTag: string;
 
   #eventEmitter = emitter;
 
@@ -26,10 +31,16 @@ export default class Editor {
 
   constructor({ element }) {
     this.#field = element;
-    // this.selection = document.getSelection();
+    this.#curentBlockTag = 'p';
+    this.onClick = this.onClick.bind(this);
+    this.addEvents();
+  }
+
+  addEvents() {
     this.changeStyle = this.changeStyle.bind(this);
     this.changeBlockTag = this.changeBlockTag.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.changeAlign = this.changeAlign.bind(this);
+    this.changeFont = this.changeFont.bind(this);
     this.addBlockTag = this.addBlockTag.bind(this);
 
     this.#eventEmitter.on('edit.keypress', this.addBlockTag);
@@ -57,6 +68,10 @@ export default class Editor {
       this.#eventEmitter.on(`toolbar.inline.${style}`, this.changeStyle);
     }
 
+    alignOptions.forEach(type =>
+      this.#eventEmitter.on(`toolbar.style.${type}`, this.changeAlign),
+    );
+
     blocksSelectOptions.forEach(el =>
       this.#eventEmitter.on(
         `toolbar.blockTag.${el.tagName}`,
@@ -73,6 +88,7 @@ export default class Editor {
   }
 
   onClick(e) {
+    // const index = getCaretIndex(e.path[0]);
     this.#eventEmitter.emit('toolbar.active', []);
 
     this.parentTagActive(e.path[0]);
@@ -80,12 +96,22 @@ export default class Editor {
     this.getCursorPosition();
   }
 
+  getCursorPosition() {
+    const selection = document.getSelection();
+    if (selection) {
+      this.range = selection.getRangeAt(0);
+    }
+  }
+
   returnFocus() {
     const selection = document.getSelection();
+
     if (this.range && selection) {
+      console.log(this.range);
       selection.removeAllRanges();
       selection.addRange(this.range);
     }
+
     this.#field.focus();
   }
 
@@ -94,12 +120,35 @@ export default class Editor {
   //   this.selection = document.getSelection();
   // }
 
+  changeAlign(e) {
+    const newAlign = e.currentTarget.dataset.style;
+
+    this.returnFocus();
+    if (newAlign) {
+      document.execCommand(newAlign, false);
+    }
+  }
+
   changeFont(e) {
-    console.log('font ', e.currentTarget.dataset.style);
+    // TODO: добавить фокус в пустой спан если не было выделено текста
+    const font = e.currentTarget.dataset.style;
+    // document.execCommand('fontName', false, font);
+    const selection = document.getSelection();
 
-    document.execCommand('fontName', false, e.currentTarget.dataset.style);
+    const newNode = document.createElement('span');
+    newNode.style.fontFamily = font;
 
-    // this.returnFocus();
+    if (selection) {
+      const range = selection.getRangeAt(0);
+
+      try {
+        range.surroundContents(newNode);
+      } catch (err) {
+        alert(err);
+      }
+    }
+
+    this.returnFocus();
   }
 
   changeBlockTag(e) {
@@ -107,25 +156,20 @@ export default class Editor {
 
     this.#curentBlockTag = e.currentTarget.dataset.style;
     this.returnFocus();
+
+    document.execCommand('formatBlock', false, this.#curentBlockTag);
   }
 
   changeStyle(e) {
-    const activeTag = e.currentTarget.dataset.style;
+    const newTag = e.currentTarget.dataset.style;
 
-    if (activeTag) {
+    if (newTag) {
       this.returnFocus();
-      document.execCommand(activeTag, false);
+      document.execCommand(newTag, false);
     }
   }
 
-  getCursorPosition() {
-    const selection = document.getSelection();
-    this.range = selection?.getRangeAt(0);
-  }
-
-  addBlockTag(e) {
-    this.getCursorPosition();
-
+  addBlockTag() {
     if (window.getSelection()?.anchorNode?.parentNode?.nodeName === 'LI')
       return;
 
@@ -164,4 +208,20 @@ function childOfEditor(child: ParentNode) {
   if (editor && (editor.contains(child) || editor === child)) return true;
 
   return false;
+}
+
+function getCaretIndex(element) {
+  let position = 0;
+  const isSupported = typeof window.getSelection !== 'undefined';
+  if (isSupported) {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount !== 0) {
+      const range = selection.getRangeAt(0);
+      const preCaretRange = range.cloneRange();
+      preCaretRange.selectNodeContents(element);
+      preCaretRange.setEnd(range.endContainer, range.endOffset);
+      position = preCaretRange.toString().length;
+    }
+  }
+  return position;
 }

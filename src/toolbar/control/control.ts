@@ -50,6 +50,7 @@ class Control implements ButtonControl {
         title: this.name,
       });
 
+      this.#eventEmitter.emit(this.#eventName, event);
       return;
     }
 
