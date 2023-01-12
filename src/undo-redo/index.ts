@@ -21,17 +21,34 @@ class UndoRedo {
 
     this.undo = this.undo.bind(this);
     this.redo = this.redo.bind(this);
+    this.onKeydown = this.onKeydown.bind(this);
 
     this.#eventEmitter.on(`toolbar.action.undo`, this.undo);
 
     this.#eventEmitter.on(`toolbar.action.redo`, this.redo);
 
     this.#editorElement.addEventListener(`input`, this.onInput);
+    this.#editorElement.addEventListener(`keydown`, this.onKeydown);
   }
 
   onInput = debounce((event: Event) => {
     this.save((event.target as HTMLDivElement).innerHTML);
   }, 300);
+
+  onKeydown(evt: KeyboardEvent) {
+    if (evt.ctrlKey) {
+      if (evt.code === `KeyZ`) {
+        evt.preventDefault();
+        this.undo();
+        return;
+      }
+
+      if (evt.code === `KeyY`) {
+        evt.preventDefault();
+        this.redo();
+      }
+    }
+  }
 
   undo() {
     let html = <string>this.#undo.execute();
