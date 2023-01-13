@@ -97,10 +97,10 @@ export default class Editor {
   }
 
   onClick(e) {
-    // const index = getCaretIndex(e.path[0]);
+    // const index = getCaretIndex(e.composedPath()[0]);
     this.#eventEmitter.emit('toolbar.active', []);
 
-    this.parentTagActive(e.path[0]);
+    this.parentTagActive(e.composedPath()[0]);
 
     this.getCursorPosition();
   }
@@ -128,6 +128,19 @@ export default class Editor {
   //   this.selection = document.getSelection();
   // }
 
+  clearNodeFromStyle(node: HTMLElement) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const child of Array.from(node.children)) {
+      if (
+        child.tagName === `SPAN` &&
+        (child as HTMLSpanElement).style.fontFamily
+      ) {
+        const clearedHtml = child.innerHTML;
+        child.replaceWith(clearedHtml);
+      }
+    }
+  }
+
   changeAlign(e) {
     const newAlign = e.currentTarget.dataset.style;
 
@@ -150,6 +163,7 @@ export default class Editor {
     if (selection && selection.getRangeAt(0)) {
       const range = selection.getRangeAt(0);
       console.log('range', range);
+
       try {
         if (range.collapsed) {
           range.insertNode(newNode);
@@ -163,6 +177,10 @@ export default class Editor {
           newNode,
           newNode.childNodes.length,
         );
+
+        if (newNode.children) {
+          this.clearNodeFromStyle(newNode);
+        }
 
         // const newRange = new Range();
         // newRange.selectNodeContents(newNode); // или selectNode(p), чтобы выделить и тег <p>

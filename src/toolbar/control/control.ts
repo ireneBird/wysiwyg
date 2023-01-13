@@ -19,13 +19,21 @@ class Control implements ButtonControl {
 
   isActive = false;
 
+  readonly #isActionControl: boolean | undefined = false;
+
   name: string;
 
   constructor(
     name: string,
-    { toolbarElement, emitEventName, groupEmitEventName }: ControlOptions,
+    {
+      toolbarElement,
+      emitEventName,
+      groupEmitEventName,
+      isActionControl,
+    }: ControlOptions,
   ) {
     this.name = name;
+    this.#isActionControl = isActionControl;
 
     this.#eventName = emitEventName;
     this.#groupEventName = groupEmitEventName;
@@ -55,8 +63,11 @@ class Control implements ButtonControl {
     }
 
     this.#eventEmitter.emit(this.#eventName, event);
-    this.isActive = !this.isActive;
-    this.#changeElementActiveClass();
+
+    if (!this.#isActionControl) {
+      this.isActive = !this.isActive;
+      this.#changeElementActiveClass();
+    }
   }
 
   render<T extends Node>(parent: HTMLElement): T {
