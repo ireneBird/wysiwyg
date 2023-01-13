@@ -106,7 +106,6 @@ class Toolbar implements ToolbarInterface {
     this.#deactivateAllControls();
 
     options.forEach(name => {
-      console.log(name);
       const buttonsGroupName = this.#getButtonsGroupName(name);
       const selectName = this.#getSelectName(name);
 

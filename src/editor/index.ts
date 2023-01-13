@@ -144,24 +144,33 @@ export default class Editor {
     const selection = document.getSelection();
 
     const newNode = document.createElement('span');
+    newNode.innerHTML = '&#xFEFF';
     newNode.style.fontFamily = font;
 
     if (selection && selection.getRangeAt(0)) {
       const range = selection.getRangeAt(0);
-
+      console.log('range', range);
       try {
-        range.surroundContents(newNode);
-        // selection.setBaseAndExtent(
-        //   newNode,
-        //   0,
-        //   newNode,
-        //   newNode.childNodes.length,
-        // );
-        const newRange = new Range();
-        newRange.selectNodeContents(newNode); // или selectNode(p), чтобы выделить и тег <p>
-        console.log(newRange, newNode);
-        selection.removeAllRanges(); // очистить текущее выделение, если оно существует
-        selection.addRange(range);
+        if (range.collapsed) {
+          range.insertNode(newNode);
+        } else {
+          range.surroundContents(newNode);
+        }
+
+        selection.setBaseAndExtent(
+          newNode,
+          0,
+          newNode,
+          newNode.childNodes.length,
+        );
+
+        // const newRange = new Range();
+        // newRange.selectNodeContents(newNode); // или selectNode(p), чтобы выделить и тег <p>
+        // newRange.setEndAfter(newNode);
+        // newRange.setStartBefore(newNode);
+        // selection.removeAllRanges();
+        // selection.addRange(newRange);
+
         this.#field.focus();
       } catch (err) {
         alert(err);
