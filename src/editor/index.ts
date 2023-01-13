@@ -17,6 +17,14 @@ const inlineTags = {
 };
 const inlineStyles = new Map(Object.entries(inlineTags));
 
+const headingTags = {
+  p: 'Paragraph',
+  h1: 'Heading 1',
+  h2: 'Heading 2',
+};
+
+const headingTagsMap = new Map(Object.entries(headingTags));
+
 export default class Editor {
   #field: HTMLDivElement;
 
@@ -33,6 +41,7 @@ export default class Editor {
     this.#field = element;
     this.#curentBlockTag = 'p';
     this.onClick = this.onClick.bind(this);
+    this.parentTagActive = this.parentTagActive.bind(this);
     this.addEvents();
   }
 
@@ -107,7 +116,6 @@ export default class Editor {
     const selection = document.getSelection();
 
     if (this.range && selection) {
-      console.log(this.range);
       selection.removeAllRanges();
       selection.addRange(this.range);
     }
@@ -138,17 +146,27 @@ export default class Editor {
     const newNode = document.createElement('span');
     newNode.style.fontFamily = font;
 
-    if (selection) {
+    if (selection && selection.getRangeAt(0)) {
       const range = selection.getRangeAt(0);
 
       try {
         range.surroundContents(newNode);
+        // selection.setBaseAndExtent(
+        //   newNode,
+        //   0,
+        //   newNode,
+        //   newNode.childNodes.length,
+        // );
+        const newRange = new Range();
+        newRange.selectNodeContents(newNode); // или selectNode(p), чтобы выделить и тег <p>
+        console.log(newRange, newNode);
+        selection.removeAllRanges(); // очистить текущее выделение, если оно существует
+        selection.addRange(range);
+        this.#field.focus();
       } catch (err) {
         alert(err);
       }
     }
-
-    this.returnFocus();
   }
 
   changeBlockTag(e) {
@@ -181,7 +199,6 @@ export default class Editor {
       elem.classList.contains('playground') &&
       this.#selectedInlineStyles?.length
     ) {
-      console.log(this.#selectedInlineStyles);
       this.#eventEmitter.emit('toolbar.active', this.#selectedInlineStyles);
     }
 
@@ -192,7 +209,10 @@ export default class Editor {
 
     // active by tag names
     const tagName = elem.tagName.toLowerCase();
-    const command = inlineStyles.get(tagName);
+    const command =
+      inlineStyles.get(tagName) ||
+      headingTagsMap.get(tagName) ||
+      elem.style.fontFamily;
 
     if (command) {
       this.#selectedInlineStyles.push(command);
