@@ -79,6 +79,7 @@ class Toolbar implements ToolbarInterface {
           actionButtonsNames.includes(name) ? `action` : `inline`
         }.${name}`,
         toolbarElement: this.#element,
+        isActionControl: actionButtonsNames.includes(name),
       });
 
       this.addControl(name, control);

@@ -2,6 +2,7 @@ export type ControlOptions = {
   toolbarElement: HTMLElement;
   emitEventName: string;
   groupEmitEventName?: string;
+  isActionControl?: boolean;
 };
 
 export type SelectControlOptions = {
