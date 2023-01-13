@@ -1,79 +1,87 @@
 import { SelectControlOption } from './types';
 
-export const blocksTags = [`Paragraph`, `Heading 1`, `Heading 2`];
+export const blocksTags = ['Paragraph', 'Heading 1', 'Heading 2'];
 export const fontsNames = [
-  `Helvetica`,
-  `Arial`,
-  `Verdana`,
-  `Times New Roman`,
-  `Tahoma`,
-  `Terminal`,
-  `Impact`,
+  'sans-serif',
+  'Helvetica',
+  'Arial',
+  'Verdana',
+  'Times New Roman',
+  'Tahoma',
+  'Terminal',
+  'Impact',
 ];
 
 export const blocksSelectOptions: SelectControlOption[] = [
   {
-    name: `Paragraph`,
-    tagName: `p`,
+    name: 'Paragraph',
+    tagName: 'p',
   },
   {
-    name: `Heading 1`,
-    tagName: `h1`,
+    name: 'Heading 1',
+    tagName: 'h1',
   },
   {
-    name: `Heading 2`,
-    tagName: `h2`,
+    name: 'Heading 2',
+    tagName: 'h2',
   },
 ];
 
 export const fontsSelectOptions: SelectControlOption[] = [
   {
-    name: `Helvetica`,
+    name: 'sans serif',
     inlineStyle: {
-      key: `font-family`,
-      value: `Helvetica`,
+      key: 'font-family',
+      value: 'sans-serif',
     },
   },
   {
-    name: `Arial`,
+    name: 'Helvetica',
     inlineStyle: {
-      key: `font-family`,
-      value: `Arial`,
+      key: 'font-family',
+      value: 'Helvetica',
     },
   },
   {
-    name: `Verdana`,
+    name: 'Arial',
     inlineStyle: {
-      key: `font-family`,
-      value: `Verdana`,
+      key: 'font-family',
+      value: 'Arial',
     },
   },
   {
-    name: `Times New Roman`,
+    name: 'Verdana',
     inlineStyle: {
-      key: `font-family`,
-      value: `Times New Roman`,
+      key: 'font-family',
+      value: 'Verdana',
     },
   },
   {
-    name: `Tahoma`,
+    name: 'Times New Roman',
     inlineStyle: {
-      key: `font-family`,
-      value: `Tahoma`,
+      key: 'font-family',
+      value: 'Times New Roman',
     },
   },
   {
-    name: `Terminal`,
+    name: 'Tahoma',
     inlineStyle: {
-      key: `font-family`,
-      value: `Terminal`,
+      key: 'font-family',
+      value: 'Tahoma',
     },
   },
   {
-    name: `Impact`,
+    name: 'Terminal',
     inlineStyle: {
-      key: `font-family`,
-      value: `Impact`,
+      key: 'font-family',
+      value: 'Terminal',
+    },
+  },
+  {
+    name: 'Impact',
+    inlineStyle: {
+      key: 'font-family',
+      value: 'Impact',
     },
   },
 ];
