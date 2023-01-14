@@ -1,4 +1,5 @@
-# WYSIWIG - Editor
+# DINOWIG 
+## WYSIWIG - Editor
 
 WYSIWIG редактор для редактирования текста
 
