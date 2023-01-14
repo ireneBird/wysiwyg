@@ -3,31 +3,12 @@
 
 WYSIWIG редактор для редактирования текста
 
-[Быстрый старт](#Быстрый-старт) - [Как скачать](#Как-скачать) - [Документация](#Документация)
+[Быстрый старт](#Быстрый-старт)
 
 <br>
 
 ## Быстрый старт
-```html
-<!-- Include editor stylesheet -->
-<link href="w-styles.css" rel="stylesheet" />
 
-<!-- Create the editor container -->
-<div id="editor"></div>
-
-<!-- Include the editor library -->
-<script src="wysiwyg-editor.js"></script>
-
-<!-- Initialize editor editor -->
-<script>
-  wysiwig.init({
-    selector: '#editor',
-    toolbar: ['align', 'decoration', 'font', 'clear','actions'],
-  })
-</script>
-```
-
-## Как скачать?
 
 -  `git clone https://github.com/ireneBird/wysiwyg.git`
 
@@ -36,5 +17,26 @@ WYSIWIG редактор для редактирования текста
 - `npm run dev`
 
 
-## Документация
+Пример инициализации редактрора 
+
+```html
+<!-- Initialize editor editor -->
+<script>
+  const editor = new Wysiwyg({
+    selector: `.editor`,
+    toolbar: [
+      'blocks',
+      'fonts',
+      'bold',
+      'italic',
+      'underline',
+      'strikeThrough',
+      'align',
+      'undo',
+      'redo',
+    ],
+  });
+</script>
+```
+
 
