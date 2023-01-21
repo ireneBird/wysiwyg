@@ -2,6 +2,7 @@ import Editor from './editor';
 import Toolbar from './toolbar/toolbar';
 import { renderElement } from './helpers';
 import { UndoRedo } from './undo-redo';
+import { HotKeys } from './hot-keys';
 
 export type InitOptions = {
   selector: string;
@@ -86,6 +87,8 @@ class Wysiwyg {
     });
     // eslint-disable-next-line no-new
     new UndoRedo({ element: this.#editorElement });
+    // eslint-disable-next-line no-new
+    new HotKeys({ element: this.#editorElement });
   }
 }
 
