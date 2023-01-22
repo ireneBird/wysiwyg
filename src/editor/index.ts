@@ -99,10 +99,9 @@ export default class Editor {
   onClick(e) {
     // const index = getCaretIndex(e.composedPath()[0]);
     this.#eventEmitter.emit('toolbar.active', []);
-
-    this.parentTagActive(e.composedPath()[0]);
-
     this.getCursorPosition();
+
+    this.parentTagActive(this.range?.commonAncestorContainer.parentElement);
   }
 
   getCursorPosition() {
@@ -153,7 +152,6 @@ export default class Editor {
   changeFont(e) {
     // TODO: добавить фокус в пустой спан если не было выделено текста
     const font = e.currentTarget.dataset.style;
-    // document.execCommand('fontName', false, font);
     const selection = document.getSelection();
 
     const newNode = document.createElement('span');
@@ -162,7 +160,6 @@ export default class Editor {
 
     if (selection && selection.getRangeAt(0)) {
       const range = selection.getRangeAt(0);
-      console.log('range', range);
 
       try {
         if (range.collapsed) {
@@ -197,8 +194,6 @@ export default class Editor {
   }
 
   changeBlockTag(e) {
-    // TODO: найти ближайшего родителя - блок и изменить тег
-
     this.#curentBlockTag = e.currentTarget.dataset.style;
     this.returnFocus();
 
@@ -221,32 +216,33 @@ export default class Editor {
     document.execCommand('formatBlock', false, this.#curentBlockTag);
   }
 
-  parentTagActive(elem) {
+  parentTagActive(element: HTMLElement | null | undefined) {
     if (
-      elem.classList.contains('playground') &&
+      element &&
+      element.classList.contains('playground') &&
       this.#selectedInlineStyles?.length
     ) {
       this.#eventEmitter.emit('toolbar.active', this.#selectedInlineStyles);
     }
 
-    if (!elem || !elem.classList || elem.classList.contains('playground')) {
+    if (!element || element.classList.contains('playground')) {
       this.#selectedInlineStyles = [];
       return false;
     }
 
     // active by tag names
-    const tagName = elem.tagName.toLowerCase();
+    const tagName = element.tagName.toLowerCase();
     const command =
       inlineStyles.get(tagName) ||
       headingTagsMap.get(tagName) ||
-      elem.style.fontFamily;
+      element.style.fontFamily;
 
-    if (command) {
+    if (command && !this.#selectedInlineStyles.includes(command)) {
       this.#selectedInlineStyles.push(command);
     }
 
     // eslint-disable-next-line consistent-return
-    return this.parentTagActive(elem.parentElement);
+    return this.parentTagActive(element.parentElement);
   }
 }
 
