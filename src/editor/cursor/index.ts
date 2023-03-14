@@ -28,6 +28,4 @@ export default class Cursor {
   hasRange() {
     return !!this.#range;
   }
-
-  getCurrentRange() {}
 }
