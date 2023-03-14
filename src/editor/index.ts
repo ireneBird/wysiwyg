@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import emitter from '../event-emitter';
 import { blocksSelectOptions, fontsSelectOptions } from '../toolbar/constants';
+import Cursor from './cursor';
 
 const alignOptions = [
   'justifyCenter',
@@ -28,18 +29,19 @@ const headingTagsMap = new Map(Object.entries(headingTags));
 export default class Editor {
   #field: HTMLDivElement;
 
-  #curentBlockTag: string;
+  #currentBlockTag: string;
 
   #eventEmitter = emitter;
 
-  range: Range | undefined;
+  #cursor: Cursor;
 
   // using inline tags
   #selectedInlineStyles: string[] = [];
 
   constructor({ element }) {
     this.#field = element;
-    this.#curentBlockTag = 'p';
+    this.#cursor = new Cursor();
+    this.#currentBlockTag = 'p';
     this.onClick = this.onClick.bind(this);
     this.parentTagActive = this.parentTagActive.bind(this);
     this.addEvents();
@@ -59,7 +61,8 @@ export default class Editor {
     });
 
     this.#field.addEventListener(`keyup`, () => {
-      this.getCursorPosition();
+      // this.getCursorPosition();
+      this.#cursor.getCursorPosition();
     });
 
     this.#field.addEventListener('click', this.onClick);
@@ -99,26 +102,16 @@ export default class Editor {
   onClick(e) {
     // const index = getCaretIndex(e.composedPath()[0]);
     this.#eventEmitter.emit('toolbar.active', []);
-    this.getCursorPosition();
+    // this.getCursorPosition();
+    this.#cursor.getCursorPosition();
 
-    this.parentTagActive(this.range?.commonAncestorContainer.parentElement);
-  }
-
-  getCursorPosition() {
-    const selection = document.getSelection();
-    if (selection) {
-      this.range = selection.getRangeAt(0);
-    }
+    this.parentTagActive(
+      this.#cursor.getRange?.commonAncestorContainer.parentElement,
+    );
   }
 
   returnFocus() {
-    const selection = document.getSelection();
-
-    if (this.range && selection) {
-      selection.removeAllRanges();
-      selection.addRange(this.range);
-    }
-
+    this.#cursor.setCurrentRangeToSelection();
     this.#field.focus();
   }
 
@@ -179,13 +172,6 @@ export default class Editor {
           this.clearNodeFromStyle(newNode);
         }
 
-        // const newRange = new Range();
-        // newRange.selectNodeContents(newNode); // или selectNode(p), чтобы выделить и тег <p>
-        // newRange.setEndAfter(newNode);
-        // newRange.setStartBefore(newNode);
-        // selection.removeAllRanges();
-        // selection.addRange(newRange);
-
         this.#field.focus();
       } catch (err) {
         alert(err);
@@ -194,10 +180,10 @@ export default class Editor {
   }
 
   changeBlockTag(e) {
-    this.#curentBlockTag = e.currentTarget.dataset.style;
+    this.#currentBlockTag = e.currentTarget.dataset.style;
     this.returnFocus();
 
-    document.execCommand('formatBlock', false, this.#curentBlockTag);
+    document.execCommand('formatBlock', false, this.#currentBlockTag);
   }
 
   changeStyle(e) {
@@ -213,7 +199,7 @@ export default class Editor {
     if (window.getSelection()?.anchorNode?.parentNode?.nodeName === 'LI')
       return;
 
-    document.execCommand('formatBlock', false, this.#curentBlockTag);
+    document.execCommand('formatBlock', false, this.#currentBlockTag);
   }
 
   parentTagActive(element: HTMLElement | null | undefined) {
@@ -244,27 +230,4 @@ export default class Editor {
     // eslint-disable-next-line consistent-return
     return this.parentTagActive(element.parentElement);
   }
-}
-
-function childOfEditor(child: ParentNode) {
-  const editor = document.querySelector('#editor');
-  if (editor && (editor.contains(child) || editor === child)) return true;
-
-  return false;
-}
-
-function getCaretIndex(element) {
-  let position = 0;
-  const isSupported = typeof window.getSelection !== 'undefined';
-  if (isSupported) {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount !== 0) {
-      const range = selection.getRangeAt(0);
-      const preCaretRange = range.cloneRange();
-      preCaretRange.selectNodeContents(element);
-      preCaretRange.setEnd(range.endContainer, range.endOffset);
-      position = preCaretRange.toString().length;
-    }
-  }
-  return position;
 }
