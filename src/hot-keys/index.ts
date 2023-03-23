@@ -1,11 +1,14 @@
 import eventEmitter from '../event-emitter';
+import { KeyboardKey } from './constants';
 
 class HotKeys {
   #eventEmitter = eventEmitter;
 
   #editorElement: HTMLDivElement;
 
-  #shortKey: string = /Mac/i.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
+  #shortKey: string = /Mac/i.test(navigator.platform)
+    ? KeyboardKey.META
+    : KeyboardKey.CONTROL;
 
   constructor({ element }: { element: HTMLDivElement }) {
     this.#editorElement = element;
@@ -23,7 +26,10 @@ class HotKeys {
         return;
       }
 
-      if (evt.code === `KeyY` || (evt.shiftKey && evt.code === `KeyZ`)) {
+      if (
+        evt.code === KeyboardKey.Y ||
+        (evt.shiftKey && evt.code === KeyboardKey.Z)
+      ) {
         evt.preventDefault();
         this.#eventEmitter.emit(`toolbar.action.redo`);
       }
