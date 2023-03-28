@@ -11,14 +11,14 @@ export class TextUnit {
     this.#textField.innerHTML = '';
   }
 
-  changeAlign(e) {
-    const newAlign = e.currentTarget.dataset.style;
+  // changeAlign(e) {
+  //   const newAlign = e.currentTarget.dataset.style;
 
-    // this.returnFocus();
-    if (newAlign) {
-      document.execCommand(newAlign, false);
-    }
-  }
+  //   // this.returnFocus();
+  //   if (newAlign) {
+  //     document.execCommand(newAlign, false);
+  //   }
+  // }
 
   countingWords(): number {
     const text = this.#textField.textContent || '';
