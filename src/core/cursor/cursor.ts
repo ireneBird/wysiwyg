@@ -1,4 +1,4 @@
-export default class Cursor {
+export class Cursor {
   #range: Range | undefined = undefined;
 
   get getRange() {

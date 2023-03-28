@@ -63,7 +63,7 @@ class Wysiwyg {
 
       renderElement(
         this.#wrapper,
-        `<div class="footer" id='footer'><span>words: 0</span></div>`,
+        `<div class="footer" id='footer'><span id='dino-words-counter'></span></div>`,
       );
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

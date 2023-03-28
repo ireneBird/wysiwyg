@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { JSDOM } from 'jsdom';
-import formatter from '../../../core/formatter';
+import formatter from './formatter';
 
 const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
 let dom;
@@ -11,8 +11,6 @@ function test(input, output, config) {
   const testNode = dom.window.document.createElement('div');
   testNode.innerHTML = input;
   formatter(testNode, config);
-
-  console.log(testNode.innerHTML);
 
   return testNode.innerHTML === output;
 }

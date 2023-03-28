@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import emitter from '../event-emitter';
 import { blocksSelectOptions, fontsSelectOptions } from '../toolbar/constants';
-import Cursor from './cursor';
+import { Cursor, CounterWords } from '../core';
 
 const alignOptions = [
   'justifyCenter',
@@ -35,6 +35,8 @@ export default class Editor {
 
   #cursor: Cursor;
 
+  counterWords = new CounterWords();
+
   // using inline tags
   #selectedInlineStyles: string[] = [];
 
@@ -53,6 +55,8 @@ export default class Editor {
     this.changeAlign = this.changeAlign.bind(this);
     this.changeFont = this.changeFont.bind(this);
     this.addBlockTag = this.addBlockTag.bind(this);
+
+    this.counterWords.init();
 
     this.#eventEmitter.on('edit.keypress', this.addBlockTag);
     // add paragraph tag on new line
