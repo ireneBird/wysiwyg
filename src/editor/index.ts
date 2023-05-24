@@ -1,28 +1,11 @@
 /* eslint-disable class-methods-use-this */
 import emitter from '../event-emitter';
 import { blocksSelectOptions, fontsSelectOptions } from '../toolbar/constants';
-import { Cursor, CounterWords } from '../core';
+import { inlineTags, headingTags, alignOptions } from './helpers';
+import { Cursor } from '../core';
+import CounterWords from './counterWords';
 
-const alignOptions = [
-  'justifyCenter',
-  'justifyFull',
-  'justifyLeft',
-  'justifyRight',
-];
-
-const inlineTags = {
-  b: 'bold',
-  i: 'italic',
-  u: 'underline',
-  strike: 'strikeThrough',
-};
 const inlineStyles = new Map(Object.entries(inlineTags));
-
-const headingTags = {
-  p: 'Paragraph',
-  h1: 'Heading 1',
-  h2: 'Heading 2',
-};
 
 const headingTagsMap = new Map(Object.entries(headingTags));
 
@@ -35,18 +18,19 @@ export default class Editor {
 
   #cursor: Cursor;
 
-  counterWords = new CounterWords();
-
   // using inline tags
   #selectedInlineStyles: string[] = [];
 
-  constructor({ element }) {
+  counter: CounterWords;
+
+  constructor({ element }: { element: HTMLDivElement }) {
     this.#field = element;
     this.#cursor = new Cursor();
     this.#currentBlockTag = 'p';
     this.onClick = this.onClick.bind(this);
     this.parentTagActive = this.parentTagActive.bind(this);
     this.addEvents();
+    this.counter = new CounterWords(element);
   }
 
   addEvents() {
@@ -55,8 +39,6 @@ export default class Editor {
     this.changeAlign = this.changeAlign.bind(this);
     this.changeFont = this.changeFont.bind(this);
     this.addBlockTag = this.addBlockTag.bind(this);
-
-    this.counterWords.init();
 
     this.#eventEmitter.on('edit.keypress', this.addBlockTag);
     // add paragraph tag on new line
@@ -70,14 +52,6 @@ export default class Editor {
     });
 
     this.#field.addEventListener('click', this.onClick);
-
-    // this.#field.addEventListener('selectstart', () => {
-    //   document.addEventListener('selectionchange', this.logSelection);
-    // });
-
-    // this.#field.addEventListener('mouseleave', () => {
-    //   document.removeEventListener('selectionchange', this.logSelection);
-    // });
 
     // eslint-disable-next-line no-restricted-syntax
     for (const style of inlineStyles.values()) {

@@ -76,19 +76,15 @@ class Wysiwyg {
   }
 
   #init() {
-    // eslint-disable-next-line no-new
-    new Editor({ element: this.#editorElement });
-    // eslint-disable-next-line no-new
-    new Toolbar({
+    const editor = new Editor({ element: this.#editorElement });
+    const toolbar = new Toolbar({
       element: this.#toolbarElement,
       controls: this.#toolbarOptions
         ? this.#toolbarOptions
         : this.#defaultToolbarOptions,
     });
-    // eslint-disable-next-line no-new
-    new UndoRedo({ element: this.#editorElement });
-    // eslint-disable-next-line no-new
-    new HotKeys({ element: this.#editorElement });
+    const undoRedo = new UndoRedo({ element: this.#editorElement });
+    const hotKeys = new HotKeys({ element: this.#editorElement });
   }
 }
 

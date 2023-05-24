@@ -1,3 +1,2 @@
-export * from './cursor/cursor';
-export * from './counterWords/counterWords';
-export * from './textUnit/textUnit';
+export * from './cursor';
+export * from './textUnit';
