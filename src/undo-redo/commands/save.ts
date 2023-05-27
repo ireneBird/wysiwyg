@@ -7,6 +7,8 @@ class Save<T> implements Command<T> {
   execute(element): T | unknown {
     this.#history.push(element);
 
+    console.log(this.#history);
+
     return undefined;
   }
 }

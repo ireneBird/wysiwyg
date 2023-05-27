@@ -1,7 +1,10 @@
-import { Stack as StackInterface } from '../interfaces';
+import {
+  SavedData as SavedDataInterface,
+  Stack as StackInterface,
+} from '../interfaces';
 
 class Stack<T> implements StackInterface<T> {
-  readonly stack: T[] = [];
+  readonly stack: SavedDataInterface<T>[] = [];
 
   current = 0;
 
@@ -22,7 +25,7 @@ class Stack<T> implements StackInterface<T> {
     return this.size === 0;
   }
 
-  push(element: T) {
+  push(element: SavedDataInterface<T>) {
     if (this.size >= this.capacity) {
       this.current = -1;
     }
@@ -33,7 +36,7 @@ class Stack<T> implements StackInterface<T> {
     this.stack[this.current] = element;
   }
 
-  pop(): T | undefined {
+  pop(): SavedDataInterface<T> | undefined {
     if (this.isEmpty) {
       return undefined;
     }

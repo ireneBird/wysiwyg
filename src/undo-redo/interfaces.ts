@@ -1,10 +1,17 @@
 export interface Command<T> {
-  execute(element?): T | unknown;
+  execute(element?: SavedData<T>): SavedData<T> | unknown;
 }
 
 export interface Stack<T> {
-  stack: T[];
+  stack: SavedData<T>[];
   readonly capacity: number;
-  push(element: T);
-  pop(): T | undefined;
+  push(element: SavedData<T>);
+  pop(): SavedData<T> | undefined;
+}
+
+export interface SavedData<T> {
+  element: T;
+  optionsForRestorePosition:
+    | { length: number; selection: Selection; context: Node }
+    | undefined;
 }
